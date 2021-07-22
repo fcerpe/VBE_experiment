@@ -10,12 +10,11 @@ function [cfg] = setParameters()
     % by default the data will be stored in an output folder created where the
     % setParamters.m file is
     % change that if you want the data to be saved somewhere else
-    cfg.dir.output = fullfile( ...
-                              fileparts(mfilename('fullpath')), 'output');
+    cfg.dir.output = fullfile(fileparts(mfilename('fullpath')), 'output');
 
     %% Debug mode settings
 
-    cfg.debug.do = false; % To test the script out of the scanner, skip PTB sync
+    cfg.debug.do = true; % To test the script out of the scanner, skip PTB sync
     cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
     cfg.debug.transpWin = false; % To test with trasparent full size screen
 
@@ -36,39 +35,23 @@ function [cfg] = setParameters()
 
     % MRI settings
     cfg = setMRI(cfg);
-    %     cfg.suffix.acquisition = '';
+    cfg.suffix.acquisition = '0p75mmEvTr2p18';
 
-    cfg.pacedByTriggers.do = true;
+    cfg.pacedByTriggers.do = false;
 
     %% Experiment Design
 
-    % switching this on to MT or MT/MST with use:
-    % - MT: translational motion on the whole screen
-    %   - alternates static and motion (left or right) blocks
-    % - MST: radial motion centered in a circle aperture that is on the opposite
-    % side of the screen relative to the fixation
-    %   - alternates fixaton left and fixation right
-    cfg.design.localizer = 'MT';
-    %     cfg.design.localizer = 'MT_MST';
+    cfg.design.localizer = 'VWFA';
+    
+    % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
+    cfg.design.names = {'FW'; 'FWS'; 'BW'; 'BWS'; 'LD'; 'LDS'};
 
-    cfg.design.motionType = 'translation';
-    cfg.design.motionDirections = [0 0 180 180];
-    cfg.design.names = {'static'; 'motion'};
-
-    % if you have static and motion and `nbRepetions` = 4, this will return 8 blocks (n blocks per
-    % hemifield in case of MT/MST localizer)
-    cfg.design.nbRepetitions = 10;
-    cfg.design.nbEventsPerBlock = 10;
+    cfg.design.nbRepetitions = 12;
+    cfg.design.nbEventsPerBlock = 12; % DO NOT CHANGE
 
     %% Timing
 
-    % FOR 7T: if you want to create localizers on the fly, the following must be
-    % multiples of the scanneryour sequence TR
-    %
-    % IBI
-    % block length = (cfg.eventDuration + cfg.ISI) * cfg.design.nbEventsPerBlock
-
-    cfg.timing.eventDuration = 0.30; % second
+    cfg.timing.eventDuration = 0.79; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 0;
@@ -83,13 +66,11 @@ function [cfg] = setParameters()
     if cfg.pacedByTriggers.do
 
         cfg.pacedByTriggers.quietMode = true;
-        cfg.pacedByTriggers.nbTriggers = 1;
+        cfg.pacedByTriggers.nbTriggers = 5;
 
         cfg.timing.eventDuration = cfg.mri.repetitionTime / 2 - 0.04; % second
 
-        % Time between blocs in nb of triggers (remember to consider the nb trigger to wait + 1)
-        cfg.timing.triggerIBI = 4;
-        % Time between blocks in secs
+        % Time between blocs in secs
         cfg.timing.IBI = 0;
         % Time between events in secs
         cfg.timing.ISI = 0;
@@ -102,20 +83,6 @@ function [cfg] = setParameters()
 
     %% Visual Stimulation
 
-    % Speed in visual angles / second
-    cfg.dot.speed = 15;
-    % Coherence Level (0-1)
-    cfg.dot.coherence = 1;
-    % Number of dots per visual angle square.
-    cfg.dot.density = 1;
-    % Dot life time in seconds
-    cfg.dot.lifeTime = 0.4;
-    % proportion of dots killed per frame
-    cfg.dot.proportionKilledPerFrame = 0;
-    % Dot Size (dot width) in visual angles.
-    cfg.dot.size = .2;
-    cfg.dot.color = cfg.color.white;
-
     % Diameter/length of side of aperture in Visual angles
     cfg.aperture.type = 'none';
     cfg.aperture.width = []; % if left empty it will take the screen height
@@ -126,11 +93,10 @@ function [cfg] = setParameters()
     cfg.task.name = 'visual localizer';
 
     % Instruction
-    cfg.task.instruction = '1-Detect the RED fixation cross\n \n\n';
+    cfg.task.instruction = 'TASK - Detect the repetition \n \n\n';
 
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';
-    cfg.fixation.colorTarget = cfg.color.red;
     cfg.fixation.color = cfg.color.white;
     cfg.fixation.width = .25;
     cfg.fixation.lineWidthPix = 3;
@@ -141,30 +107,14 @@ function [cfg] = setParameters()
     cfg.target.maxNbPerBlock = 1;
     cfg.target.duration = 0.1; % In secs
     cfg.target.type = 'fixation_cross';
-    % 'fixation_cross' : the fixation cross changes color
-    % 'static_repeat' : dots are in the same position
-
-    cfg.extraColumns = { ...
-                        'direction', ...
-                        'speedDegVA', ...
-                        'target', ...
-                        'event', ...
-                        'block', ...
-                        'keyName', ...
-                        'fixationPosition', ...
-                        'aperturePosition'};
-
-    %% orverrireds the relevant fields in case we use the MT / MST localizer
-    cfg = setParametersMtMst(cfg);
+    
+    cfg.extraColumns = {'direction', 'target', 'event', 'block', 'keyName'};    
 
 end
 
 function cfg = setKeyboards(cfg)
     cfg.keyboard.escapeKey = 'ESCAPE';
-    cfg.keyboard.responseKey = { ...
-                                'r', 'g', 'y', 'b', ...
-                                'd', 'n', 'z', 'e', ...
-                                't'};
+    cfg.keyboard.responseKey = {'r', 'g', 'y', 'b','d', 'n', 'z', 'e','t'};
     cfg.keyboard.keyboard = [];
     cfg.keyboard.responseBox = [];
 
@@ -181,7 +131,7 @@ function cfg = setMRI(cfg)
 
     cfg.mri.repetitionTime = 1.8;
 
-    cfg.bids.MRI.Instructions = 'Detect the RED fixation cross';
+    cfg.bids.MRI.Instructions = 'Detect the repeated stimulus';
     cfg.bids.MRI.TaskDescription = [];
 
 end
@@ -207,42 +157,3 @@ function cfg = setMonitor(cfg)
 
 end
 
-function cfg = setParametersMtMst(cfg)
-
-    if isfield(cfg.design, 'localizer') && strcmpi(cfg.design.localizer, 'MT_MST')
-
-        cfg.task.name = 'mt mst localizer';
-
-        cfg.design.motionType = 'radial';
-        cfg.design.motionDirections = [666 -666];
-        %         cfg.design.names = {'motion'};
-        cfg.design.names = {'static'; 'motion'};
-        cfg.design.fixationPosition = {'fixation_left'; 'fixation_right'};
-        %          cfg.design.fixationPosition = {'fixation_right'; 'fixation_left'};
-        cfg.design.xDisplacementFixation = 7;
-        cfg.design.xDisplacementAperture = 3;
-
-        % here we double the repetions (2 hemifields)
-        cfg.design.nbRepetitions = cfg.design.nbRepetitions * length(cfg.design.fixationPosition);
-
-        % inward&outward are presented as separated event
-        cfg.design.nbEventsPerBlock = cfg.design.nbEventsPerBlock * 2;
-
-        cfg.timing.IBI = 4;
-
-        cfg.timing.changeFixationPosition = 10;
-
-        % reexpress those in terms of repetition time
-        if cfg.pacedByTriggers.do
-
-            cfg.timing.IBI = 2;
-
-        end
-
-        cfg.aperture.type = 'circle';
-        cfg.aperture.width = 7; % if left empty it will take the screen height
-        cfg.aperture.xPos = cfg.design.xDisplacementAperture;
-
-    end
-
-end
