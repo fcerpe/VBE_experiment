@@ -4,8 +4,7 @@
 %% Visual motion localizer
 
 getOnlyPress = 1;
-
-more off;
+% more off;
 
 % Clear all the previous stuff
 clc;
@@ -23,23 +22,18 @@ cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
 %%  Experiment
-
 % Safety loop: close the screen if code crashes
 try
 
     %% Init the experiment
-    [cfg] = initPTB(cfg);
+    
+    % creates window and launches, with all the parameters
+    cfg = initPTB(cfg);
 
     cfg = postInitializationSetup(cfg);
 
-    [el] = eyeTracker('Calibration', cfg);
-
-    if isfield(cfg.design, 'localizer') && strcmpi(cfg.design.localizer, 'MT_MST')
-        [cfg] = expDesignMtMst(cfg);
-    else
-        [cfg] = expDesign(cfg);
-    end
-
+    cfg = expDesign(cfg);
+    
     % Prepare for the output logfiles with all
     logFile.extraColumns = cfg.extraColumns;
     logFile = saveEventsFile('init', cfg, logFile);
@@ -62,8 +56,6 @@ try
 
     %% Experiment Start
 
-    eyeTracker('StartRecording', cfg);
-
     cfg = getExperimentStart(cfg);
 
     getResponse('start', cfg.keyboard.responseBox);
@@ -76,7 +68,6 @@ try
 
         fprintf('\n - Running Block %.0f \n', iBlock);
 
-        eyeTracker('Message', cfg, ['start_block-', num2str(iBlock)]);
         dots = [];
         previousEvent.target = 0;
         % For each event in the block
@@ -89,15 +80,10 @@ try
 
             % we wait for a trigger every 2 events
             if cfg.pacedByTriggers.do && mod(iEvent, 2) == 1
-                waitForTrigger( ...
-                               cfg, ...
-                               cfg.keyboard.responseBox, ...
+                waitForTrigger(cfg, cfg.keyboard.responseBox, ...
                                cfg.pacedByTriggers.quietMode, ...
                                cfg.pacedByTriggers.nbTriggers);
             end
-
-            eyeTracker('Message', cfg, ...
-                       ['start_trial-', num2str(iEvent), '_', thisEvent.trial_type]);
 
             % we want to initialize the dots position when targets type is fixation cross
             % or if this the first event of a target pair
@@ -110,8 +96,7 @@ try
             % play the dots and collect onset and duraton of the event
             [onset, duration, dots] = doDotMo(cfg, thisEvent, thisFixation, dots, iEvent);
 
-            thisEvent = preSaveSetup( ...
-                                     thisEvent, ...
+            thisEvent = preSaveSetup(thisEvent, ...
                                      thisFixation, ...
                                      iBlock, iEvent, ...
                                      duration, onset, ...
@@ -127,9 +112,6 @@ try
 
             triggerString = ['trigger_' cfg.design.blockNames{iBlock}];
             saveResponsesAndTriggers(responseEvents, cfg, logFile, triggerString);
-
-            eyeTracker('Message', cfg, ...
-                       ['end_trial-', num2str(iEvent), '_', thisEvent.trial_type]);
 
             previousEvent = thisEvent;
 
@@ -148,14 +130,11 @@ try
         drawFixation(thisFixation);
         Screen('Flip', cfg.screen.win);
 
-        eyeTracker('Message', cfg, ['end_block-', num2str(iBlock)]);
-
         waitFor(cfg, cfg.timing.IBI);
 
         % IBI trigger paced
         if cfg.pacedByTriggers.do
-            waitForTrigger( ...
-                           cfg, ...
+            waitForTrigger(cfg, ...
                            cfg.keyboard.responseBox, ...
                            cfg.pacedByTriggers.quietMode, ...
                            cfg.timing.triggerIBI);
@@ -181,15 +160,11 @@ try
 
     cfg = getExperimentEnd(cfg);
 
-    eyeTracker('StopRecordings', cfg);
-
     % Close the logfiles
     saveEventsFile('close', cfg, logFile);
 
     getResponse('stop', cfg.keyboard.responseBox);
     getResponse('release', cfg.keyboard.responseBox);
-
-    eyeTracker('Shutdown', cfg);
 
     createJson(cfg, cfg);
 
