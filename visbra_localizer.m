@@ -1,7 +1,11 @@
+%% Visual Braille study - VWFA localizer
+%
+% Orinigally from cpp_lab\visual_motion_localizer
 % (C) Copyright 2018 Mohamed Rezk
 % (C) Copyright 2020 CPP visual motion localizer developpers
-
-%% Visual motion localizer
+%
+% Rearranged and modified by Filippo Cerpelloni
+% Last update 03/08/2021
 
 getOnlyPress = 1;
 % more off;
@@ -21,19 +25,21 @@ cfg = setParameters;
 cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
+% Remove unnecessary stuff, cna't stand them
+cfg = rmfield(cfg,{'audio','eyeTracker'});
+
 %%  Experiment
 % Safety loop: close the screen if code crashes
 try
-
+    
     %% Init the experiment
     
     % creates window and launches, with all the parameters
     cfg = initPTB(cfg);
 
-    cfg = postInitializationSetup(cfg);
-
+    % creates design of experiment: re-made suited on me 
     cfg = expDesign(cfg);
-    
+        
     % Prepare for the output logfiles with all
     logFile.extraColumns = cfg.extraColumns;
     logFile = saveEventsFile('init', cfg, logFile);
@@ -41,8 +47,6 @@ try
 
     % prepare textures
     cfg = apertureTexture('init', cfg);
-    cfg = dotTexture('init', cfg);
-
     disp(cfg);
 
     % Show experiment instruction
@@ -57,9 +61,7 @@ try
     %% Experiment Start
 
     cfg = getExperimentStart(cfg);
-
     getResponse('start', cfg.keyboard.responseBox);
-
     waitFor(cfg, cfg.timing.onsetDelay);
 
     %% For Each Block

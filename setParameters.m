@@ -25,7 +25,7 @@ function [cfg] = setParameters()
     %% Engine parameters
 
     cfg.testingDevice = 'mri';
-    cfg.eyeTracker.do = true;
+    cfg.eyeTracker.do = false;
     cfg.audio.do = false;
 
     cfg = setMonitor(cfg);
@@ -35,8 +35,8 @@ function [cfg] = setParameters()
 
     % MRI settings
     cfg = setMRI(cfg);
-    cfg.suffix.acquisition = '0p75mmEvTr2p18';
-
+    cfg.suffix.acquisition = '0p75mmEvTr2p18'; % Is it changeable? 
+                                               % Does it mean something?
     cfg.pacedByTriggers.do = false;
 
     %% Experiment Design
@@ -46,8 +46,8 @@ function [cfg] = setParameters()
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'FW'; 'FWS'; 'BW'; 'BWS'; 'LD'; 'LDS'};
 
-    cfg.design.nbRepetitions = 12;
-    cfg.design.nbEventsPerBlock = 12; % DO NOT CHANGE
+    cfg.design.nbRepetitions = 10;
+    cfg.design.nbEventsPerBlock = 20; % DO NOT CHANGE. why?
 
     %% Timing
 
@@ -104,9 +104,9 @@ function [cfg] = setParameters()
     cfg.fixation.yDisplacement = 0;
 
     % target
-    cfg.target.maxNbPerBlock = 1;
+    cfg.target.maxNbPerBlock = 2;
     cfg.target.duration = 0.1; % In secs
-    cfg.target.type = 'fixation_cross';
+    cfg.target.type = 'repetition';
     
     cfg.extraColumns = {'direction', 'target', 'event', 'block', 'keyName'};    
 
