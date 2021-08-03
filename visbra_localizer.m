@@ -5,7 +5,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 03/08/2021
+% Last update 03/08/2021 - line 79
 
 getOnlyPress = 1;
 % more off;
@@ -25,7 +25,7 @@ cfg = setParameters;
 cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
-% Remove unnecessary stuff, cna't stand them
+% Remove unnecessary stuff, can't stand them
 cfg = rmfield(cfg,{'audio','eyeTracker'});
 
 %%  Experiment
@@ -45,10 +45,6 @@ try
     logFile = saveEventsFile('init', cfg, logFile);
     logFile = saveEventsFile('open', cfg, logFile);
 
-    % prepare textures
-    cfg = apertureTexture('init', cfg);
-    disp(cfg);
-
     % Show experiment instruction
     standByScreen(cfg);
 
@@ -60,18 +56,20 @@ try
 
     %% Experiment Start
 
+    % Fixation cross and get starting time
     cfg = getExperimentStart(cfg);
+    
     getResponse('start', cfg.keyboard.responseBox);
     waitFor(cfg, cfg.timing.onsetDelay);
 
-    %% For Each Block
+    %% Actual presentation of stimuli
 
     for iBlock = 1:cfg.design.nbBlocks
 
         fprintf('\n - Running Block %.0f \n', iBlock);
 
-        dots = [];
         previousEvent.target = 0;
+        
         % For each event in the block
         for iEvent = 1:cfg.design.nbEventsPerBlock
 
