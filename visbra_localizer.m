@@ -67,7 +67,6 @@ try
     for iBlock = 1:cfg.design.nbBlocks
 
         fprintf('\n - Running Block %.0f \n', iBlock);
-
         previousEvent.target = 0;
         
         % For each event in the block
@@ -85,16 +84,13 @@ try
                                cfg.pacedByTriggers.nbTriggers);
             end
 
-            % we want to initialize the dots position when targets type is fixation cross
+            % we want to initialize the image when targets type is fixation cross
             % or if this the first event of a target pair
-            if strcmp(cfg.target.type, 'static_repeat') && ...
-                    thisEvent.target == previousEvent.target
-            else
-                dots = [];
-            end
 
+
+            % DO THE THING
             % play the dots and collect onset and duraton of the event
-            [onset, duration, dots] = doDotMo(cfg, thisEvent, thisFixation, dots, iEvent);
+            [onset, duration, image] = doDotMo(cfg, thisEvent, thisFixation, dots, iEvent);
 
             thisEvent = preSaveSetup(thisEvent, ...
                                      thisFixation, ...
@@ -126,10 +122,7 @@ try
         else
             nextBlock = cfg.design.nbBlocks;
         end
-        [~, thisFixation] = preTrialSetup(cfg, nextBlock, 1);
-        drawFixation(thisFixation);
-        Screen('Flip', cfg.screen.win);
-
+        
         waitFor(cfg, cfg.timing.IBI);
 
         % IBI trigger paced
