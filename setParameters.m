@@ -15,8 +15,9 @@ function [cfg] = setParameters()
     %% Debug mode settings
 
     cfg.debug.do = true; % To test the script out of the scanner, skip PTB sync
-    cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
-    cfg.debug.transpWin = false; % To test with trasparent full size screen
+    cfg.debug.smallWin = true; % To test on a part of the screen, change to 1
+    cfg.debug.transpWin = true; % To test with trasparent full size screen
+    cfg.debug.showMouse = true;
 
     cfg.skipSyncTests = 0;
 
@@ -46,7 +47,7 @@ function [cfg] = setParameters()
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'FW'; 'FWS'; 'BW'; 'BWS'; 'LD'; 'LDS'};
 
-    cfg.design.nbRepetitions = 10;
+    cfg.design.nbRepetitions = 12;
     cfg.design.nbEventsPerBlock = 20; % DO NOT CHANGE. why?
 
     %% Timing
