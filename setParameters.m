@@ -82,12 +82,11 @@ function [cfg] = setParameters()
 
     end
 
-    %% Visual Stimulation
-
-    % Diameter/length of side of aperture in Visual angles
-    cfg.aperture.type = 'none';
-    cfg.aperture.width = []; % if left empty it will take the screen height
-    cfg.aperture.xPos = 0;
+    %% Visual Stimuliation
+    
+    % List of objects represented: same order in all the folders, lets us
+    % speed up the 'get which image' phase
+    cfg.stimuli.list = {};
 
     %% Task(s)
 
