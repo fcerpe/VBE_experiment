@@ -71,7 +71,7 @@ try
         
         % For each event in the block
         
-        for iEvent = 1:cfg.design.legnthBlock % 20, 21, 22 depending on 1-back
+        for iEvent = 1:cfg.design.nbEventsPerBlock
 
             % Check for experiment abortion from operator
             checkAbort(cfg, cfg.keyboard.keyboard);
@@ -120,7 +120,6 @@ try
             waitFor(cfg, cfg.timing.ISI);
             
             % 1-back: IF the target is one, the event must be repeated
-            if cfg.desing.
 
         end
 
@@ -136,7 +135,8 @@ try
 
         % IBI trigger paced
         if cfg.pacedByTriggers.do
-            waitForTrigger(cfg, cfg.keyboard.responseBox, ...
+            waitForTrigger(cfg, ...
+                           cfg.keyboard.responseBox, ...
                            cfg.pacedByTriggers.quietMode, ...
                            cfg.timing.triggerIBI);
         end
