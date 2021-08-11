@@ -25,9 +25,6 @@ cfg = setParameters;
 cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
-% Remove unnecessary stuff, can't stand them
-cfg = rmfield(cfg,{'audio','eyeTracker'});
-
 %%  Experiment
 % Safety loop: close the screen if code crashes
 try
