@@ -15,9 +15,9 @@ function [cfg] = setParameters()
     %% Debug mode settings
 
     cfg.debug.do = true; % To test the script out of the scanner, skip PTB sync
-    cfg.debug.smallWin = true; % To test on a part of the screen, change to 1
-    cfg.debug.transpWin = true; % To test with trasparent full size screen
-    cfg.debug.showMouse = true;
+    cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
+    cfg.debug.transpWin = false; % To test with trasparent full size screen
+    cfg.debug.showMouse = false;
 
     cfg.skipSyncTests = 0;
 
@@ -45,19 +45,19 @@ function [cfg] = setParameters()
     cfg.design.localizer = 'VWFA';
     
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
-    cfg.design.names = {'FW'; 'FWS'; 'BW'; 'BWS'; 'LD'; 'LDS'};
+    cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
 
     cfg.design.nbRepetitions = 12;
     cfg.design.nbEventsPerBlock = 20; % DO NOT CHANGE. why?
 
     %% Timing
 
-    cfg.timing.eventDuration = 0.79; % second
+    cfg.timing.eventDuration = 2; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 0;
     % Time between events in secs
-    cfg.timing.ISI = 0;
+    cfg.timing.ISI = 0.01;
     % Number of seconds before the motion stimuli are presented
     cfg.timing.onsetDelay = 0;
     % Number of seconds after the end all the stimuli before ending the run
@@ -86,10 +86,12 @@ function [cfg] = setParameters()
     
     % List of objects represented: same order in all the folders, lets us
     % speed up the 'get which image' phase
-    cfg.stimuli.list = {};
-
+    % 10-8-2021: Let's start with only one
+    cfg.stimuli.list = {'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png',...
+                        'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png',...
+                        'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png',...
+                        'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png'};
     %% Task(s)
-
     cfg.task.name = 'visual localizer';
 
     % Instruction

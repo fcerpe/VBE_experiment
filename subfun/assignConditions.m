@@ -7,12 +7,12 @@ function [conditionNamesVector, CON1_INDEX, CON2_INDEX, CON3_INDEX, CON4_INDEX, 
     conditionNamesVector = repmat(cfg.design.names, nbRepet, 1);
 
     % Get the index of each condition
-    nameCondition1 = 'FW';
-    nameCondition2 = 'FWS';
-    nameCondition3 = 'BW';
-    nameCondition4 = 'BWS';
-    nameCondition5 = 'LD';
-    nameCondition6 = 'LDS';
+    nameCondition1 = 'fw';
+    nameCondition2 = 'sfw';
+    nameCondition3 = 'bw';
+    nameCondition4 = 'sbw';
+    nameCondition5 = 'ld';
+    nameCondition6 = 'sld';
     
     CON1_INDEX = find(strcmp(conditionNamesVector, nameCondition1));
     CON2_INDEX = find(strcmp(conditionNamesVector, nameCondition2));

@@ -99,6 +99,8 @@ function [cfg] = expDesign(cfg, displayFigs)
     cfg.design.blockNames = assignConditions(cfg);
     cfg.design.nbBlocks = NB_BLOCKS;
     cfg.design.repetitionTargets = repetitionTargets;
+    % Length of block is 20, plus possible repetitions due to target
+    cfg.design.lengthBlock = numTargetsForEachBlock + 20; 
 
     %% Plot
     diplayDesign(cfg, displayFigs);

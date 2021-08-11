@@ -22,25 +22,23 @@ function [onset, duration, image] = showStim(cfg, thisEvent, thisFixation, image
     
     % Here we load in an image from file. This one is a image of rabbits that
     % is included with PTB
-    imgLocation = image;
-    thisImage = imread(imgLocation);
+    imgToShow = imread(image);
 
     % Get the size of the image
-    [imgX, imgY, imgZ] = size(thisImage);
+    [imgX, imgY, imgZ] = size(imgToShow);
 
     while framesLeft
         %% draw evetything and flip screen
 
         % DrawFormattedText(cfg.screen.win, 'IMAGE TO COME', 'center','center');
         % Make the image into a texture
-        imageTexture = Screen('MakeTexture', cfg.screen.win, thisImage);
+        imageTexture = Screen('MakeTexture', cfg.screen.win, imgToShow);
 
         % Draw the image to the screen, unless otherwise specified PTB will draw
         % the texture full size in the center of the screen. We first draw the
         % image in its correct orientation.
         Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
                 
-        Screen('DrawingFinished', cfg.screen.win);
         vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
 
         %% Update counters

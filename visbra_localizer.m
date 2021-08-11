@@ -5,7 +5,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 03/08/2021 - line 79
+% Last update 11/08/2021
 
 getOnlyPress = 1;
 % more off;
@@ -70,7 +70,8 @@ try
         previousEvent.target = 0;
         
         % For each event in the block
-        for iEvent = 1:cfg.design.nbEventsPerBlock
+        
+        for iEvent = 1:cfg.design.legnthBlock % 20, 21, 22 depending on 1-back
 
             % Check for experiment abortion from operator
             checkAbort(cfg, cfg.keyboard.keyboard);
@@ -86,18 +87,22 @@ try
 
             % we want to initialize the image when targets type is fixation cross
             % or if this the first event of a target pair
-
+            % Get the path of the specific .png image 
+            % string(cfg.design.names(iBlock))
+            thisImage = 'inputs/bw/' + string(cfg.stimuli.list{iEvent}); % Get it from an array            
 
             % DO THE THING
             % show the current image / stimulus and collect onset and duraton of the event
-            thisImage = []; % Get it from an array
             [onset, duration, image] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
+            % Different from full path, we only care about the file itself
+            imgToSave = string(cfg.stimuli.list{iEvent});
+            
             thisEvent = preSaveSetup(thisEvent, ...
                                      thisFixation, ...
                                      iBlock, iEvent, ...
                                      duration, onset, ...
-                                     cfg, image, ...
+                                     cfg, imgToSave, ...
                                      logFile);
 
             saveEventsFile('save', cfg, thisEvent);
@@ -113,6 +118,9 @@ try
             previousEvent = thisEvent;
 
             waitFor(cfg, cfg.timing.ISI);
+            
+            % 1-back: IF the target is one, the event must be repeated
+            if cfg.desing.
 
         end
 
@@ -128,8 +136,7 @@ try
 
         % IBI trigger paced
         if cfg.pacedByTriggers.do
-            waitForTrigger(cfg, ...
-                           cfg.keyboard.responseBox, ...
+            waitForTrigger(cfg, cfg.keyboard.responseBox, ...
                            cfg.pacedByTriggers.quietMode, ...
                            cfg.timing.triggerIBI);
         end

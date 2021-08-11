@@ -5,7 +5,7 @@ function varargout = preSaveSetup(varargin)
 
     % generic function to prepare structures before saving
 
-    [thisEvent, thisFixation, iBlock, iEvent, duration, onset, cfg, logFile] = ...
+    [thisEvent, thisFixation, iBlock, iEvent, duration, onset, cfg, imgToSave, logFile] = ...
         deal(varargin{:});
 
     thisEvent.event = iEvent;
@@ -14,7 +14,7 @@ function varargout = preSaveSetup(varargin)
     thisEvent.duration = duration;
     thisEvent.onset = onset - cfg.experimentStart;
     thisEvent.fixationPosition = thisFixation.fixation.xDisplacement;
-    thisEvent.imagePresented = image;
+    thisEvent.imagePresented = imgToSave;
     
         % Save the events txt logfile
     % we save event by event so we clear this variable every loop
