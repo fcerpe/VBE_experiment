@@ -63,17 +63,15 @@ function [cfg] = expDesign(cfg, displayFigs)
     numTargetsForEachBlock(C5_INDEX) = shuffle(targetPerCondition);
     numTargetsForEachBlock(C6_INDEX) = shuffle(targetPerCondition);
 
-    %% Give the blocks the names with condition and design the task in each event
+    %% Give the blocks the condition names and pick which events are targets
     % Task is 1-back: need to repeat random images either once or twice, based on
     % # of targets 
     % repetitionTargets: 
         
     while 1
-
         repetitionTargets = zeros(NB_BLOCKS, NB_EVENTS_PER_BLOCK);
-        
+       
         for iBlock = 1:NB_BLOCKS
-
             % Set target
             % - if there are 2 targets per block we make sure that they are at least
             % 2 events apart
@@ -81,12 +79,58 @@ function [cfg] = expDesign(cfg, displayFigs)
             % - no more than 2 target in the same event order
 
             nbTarget = numTargetsForEachBlock(iBlock);
-
             chosenPosition = setTargetPositionInSequence(NB_EVENTS_PER_BLOCK, ...
                                                          nbTarget, ...
                                                          [1 NB_EVENTS_PER_BLOCK]);
             repetitionTargets(iBlock, chosenPosition) = 1;
+        end
 
+        % Check rule 3
+        if max(sum(repetitionTargets)) < NB_REPETITIONS - 1
+            break
+        end
+    end
+    
+    %% Shuffle events (words) in each block in a similar fashion
+    % Only kept the rule about no more than 2 target in the same event
+    % order, to guarantee that all elements will be subject to repetition
+    eventIDs = 1:20;
+    whichEvent = repmat(eventIDs, NB_BLOCKS, 1);
+    
+    while 1
+        
+        % Try shuffling every row (run)
+        for s = 1:size(whichEvent,1)
+            shuffledEvents(s,:) = shuffle(whichEvent(s,:));
+        end
+        
+        % Check coloumns for repetitions: max 2 for every condition (see
+        % C1_INDEX etc)
+        for c = 1:size(whichEvent,2)
+            % Get the unique values of each condition
+            nr_1 = unique(shuffledEvents(C1_INDEX',c));
+            nr_2 = unique(shuffledEvents(C2_INDEX',c));
+            nr_3 = unique(shuffledEvents(C3_INDEX',c));
+            nr_4 = unique(shuffledEvents(C4_INDEX',c));
+            nr_5 = unique(shuffledEvents(C5_INDEX',c));
+            nr_6 = unique(shuffledEvents(C6_INDEX',c));
+            
+            % Check each condition
+            for u = 1:length(nr_1)
+                if sum(shuffledEvents(C1_INDEX',c) == nr_1(u)) > 2 
+                    break;
+                end
+            end
+        end
+        
+        
+        for iBlock = 1:NB_BLOCKS
+            
+            nbTarget = numTargetsForEachBlock(iBlock);
+            chosenPosition = setTargetPositionInSequence(NB_EVENTS_PER_BLOCK, ...
+                                                         nbTarget, ...
+                                                         [1 NB_EVENTS_PER_BLOCK]);
+            repetitionTargets(iBlock, chosenPosition) = 1;
         end
 
         % Check rule 3

@@ -25,6 +25,7 @@ cfg = setParameters;
 cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
+
 %%  Experiment
 % Safety loop: close the screen if code crashes
 try
