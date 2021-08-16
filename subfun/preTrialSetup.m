@@ -9,7 +9,7 @@ function varargout = preTrialSetup(varargin)
 
     % Not much to do since there's no motion involved
     thisEvent.trial_type = cfg.design.blockNames{iBlock};
-    thisEvent.target = cfg.design.repetitionTargets(iBlock, iEvent);
+    thisEvent.target = cfg.design.targetMatrix(iBlock, iEvent);
 
     % If this frame shows a target we change the color of the cross
     thisFixation.fixation = cfg.fixation;

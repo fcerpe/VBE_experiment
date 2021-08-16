@@ -47,7 +47,7 @@ function [cfg] = setParameters()
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
 
-    cfg.design.nbRepetitions = 12;
+    cfg.design.nbRepetitions = 1;
     cfg.design.nbEventsPerBlock = 20; % DO NOT CHANGE. why?
 
     %% Timing
@@ -72,7 +72,7 @@ function [cfg] = setParameters()
         cfg.timing.eventDuration = cfg.mri.repetitionTime / 2 - 0.04; % second
 
         % Time between blocs in secs
-        cfg.timing.IBI = 0;
+        cfg.timing.IBI = 1;
         % Time between events in secs
         cfg.timing.ISI = 0;
         % Number of seconds before the motion stimuli are presented
@@ -87,10 +87,10 @@ function [cfg] = setParameters()
     % List of objects represented: same order in all the folders, lets us
     % speed up the 'get which image' phase
     % 10-8-2021: Let's start with only one
-    cfg.stimuli.list = {'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png',...
-                        'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png',...
-                        'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png',...
-                        'boussole.png','boussole.png','boussole.png','boussole.png','boussole.png'};
+    cfg.stimuli.list = {'img1.png', 'img2.png', 'img3.png', 'img4.png', 'img5.png',...
+                        'img6.png', 'img7.png', 'img8.png', 'img9.png', 'img10.png',...
+                        'img11.png','img12.png','img13.png','img14.png','img15.png',...
+                        'img16.png','img17.png','img18.png','img19.png','img20.png'};
     %% Task(s)
     cfg.task.name = 'visual localizer';
 
@@ -110,7 +110,7 @@ function [cfg] = setParameters()
     cfg.target.duration = 0.1; % In secs
     cfg.target.type = 'repetition';
     
-    cfg.extraColumns = {'direction', 'target', 'event', 'block', 'keyName'};    
+    cfg.extraColumns = {'image', 'target', 'event', 'block', 'keyName'};    
 
 end
 
@@ -129,7 +129,7 @@ end
 function cfg = setMRI(cfg)
     % letter sent by the trigger to sync stimulation and volume acquisition
     cfg.mri.triggerKey = 't';
-    cfg.mri.triggerNb = 5;
+    cfg.mri.triggerNb = 0;
 
     cfg.mri.repetitionTime = 1.8;
 

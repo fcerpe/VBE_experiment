@@ -69,8 +69,8 @@ try
         
         % For each event in the block
         
-        for iEvent = 1:cfg.design.nbEventsPerBlock
-
+        for iEvent = 1:cfg.design.lengthBlock(iBlock)
+            
             % Check for experiment abortion from operator
             checkAbort(cfg, cfg.keyboard.keyboard);
 
@@ -78,8 +78,7 @@ try
 
             % we wait for a trigger every 2 events
             if cfg.pacedByTriggers.do && mod(iEvent, 2) == 1
-                waitForTrigger(cfg, cfg.keyboard.responseBox, ...
-                               cfg.pacedByTriggers.quietMode, ...
+                waitForTrigger(cfg, cfg.keyboard.responseBox, cfg.pacedByTriggers.quietMode, ...
                                cfg.pacedByTriggers.nbTriggers);
             end
 
@@ -87,21 +86,20 @@ try
             % or if this the first event of a target pair
             % Get the path of the specific .png image 
             % string(cfg.design.names(iBlock))
-            thisImage = 'inputs/bw/' + string(cfg.stimuli.list{iEvent}); % Get it from an array            
+            currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
+            
+            thisImage = 'inputs/' + string(cfg.design.blockNames{iBlock}) + ...
+                        '/' + string(cfg.stimuli.list{currentImgIndex}); % Get it from an array            
 
             % DO THE THING
             % show the current image / stimulus and collect onset and duraton of the event
-            [onset, duration, image] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
+            [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
             % Different from full path, we only care about the file itself
-            imgToSave = string(cfg.stimuli.list{iEvent});
+            imgToSave = string(cfg.stimuli.list{currentImgIndex});
             
-            thisEvent = preSaveSetup(thisEvent, ...
-                                     thisFixation, ...
-                                     iBlock, iEvent, ...
-                                     duration, onset, ...
-                                     cfg, imgToSave, ...
-                                     logFile);
+            thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
+                                     duration, onset, cfg, imgToSave, logFile);
 
             saveEventsFile('save', cfg, thisEvent);
 

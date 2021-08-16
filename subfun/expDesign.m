@@ -47,22 +47,30 @@ function [cfg] = expDesign(cfg, displayFigs)
     [NB_BLOCKS, NB_REPETITIONS, NB_EVENTS_PER_BLOCK, MAX_TARGET_PER_BLOCK] = getDesignInput(cfg);
     [~, C1_INDEX, C2_INDEX, C3_INDEX, C4_INDEX, C5_INDEX, C6_INDEX] = assignConditions(cfg);
 
-    if mod(NB_REPETITIONS, MAX_TARGET_PER_BLOCK) ~= 0
-        error('number of repetitions must be a multiple of max number of targets');
-    end
+%     if mod(NB_REPETITIONS, MAX_TARGET_PER_BLOCK) ~= 0
+%         error('number of repetitions must be a multiple of max number of targets');
+%     end
 
-    % Modified: added the 0 targets condition    
+    % Modified: added the 0 targets condition   
     RANGE_TARGETS = 0:MAX_TARGET_PER_BLOCK;
-    targetPerCondition = repmat(RANGE_TARGETS, 1, NB_REPETITIONS / (MAX_TARGET_PER_BLOCK+1));
     
-    numTargetsForEachBlock = zeros(1, NB_BLOCKS);
-    numTargetsForEachBlock(C1_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C2_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C3_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C4_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C5_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C6_INDEX) = shuffle(targetPerCondition);
-
+    if NB_REPETITIONS == 1 % Only one repetition is for coding: just one to see how things work (if they do)
+        targetPerCondition = repmat(RANGE_TARGETS, 1, 2);
+        numTargetsForEachBlock = shuffle(targetPerCondition);
+        
+    else % Usual way of doing it
+        targetPerCondition = repmat(RANGE_TARGETS, 1, NB_REPETITIONS / (MAX_TARGET_PER_BLOCK+1));
+        
+        numTargetsForEachBlock = zeros(1, NB_BLOCKS);
+        numTargetsForEachBlock(C1_INDEX) = shuffle(targetPerCondition);
+        numTargetsForEachBlock(C2_INDEX) = shuffle(targetPerCondition);
+        numTargetsForEachBlock(C3_INDEX) = shuffle(targetPerCondition);
+        numTargetsForEachBlock(C4_INDEX) = shuffle(targetPerCondition);
+        numTargetsForEachBlock(C5_INDEX) = shuffle(targetPerCondition);
+        numTargetsForEachBlock(C6_INDEX) = shuffle(targetPerCondition);
+        
+    end
+    
     %% Give the blocks the condition names and pick which events are targets
     % Task is 1-back: need to repeat random images either once or twice, based on
     % # of targets 
@@ -86,6 +94,9 @@ function [cfg] = expDesign(cfg, displayFigs)
         end
 
         % Check rule 3
+        if NB_REPETITIONS == 1 % No point in checking if only 1 repetition
+            break
+        end
         if max(sum(repetitionTargets)) < NB_REPETITIONS - 1
             break
         end
@@ -94,57 +105,51 @@ function [cfg] = expDesign(cfg, displayFigs)
     %% Shuffle events (words) in each block in a similar fashion
     % Only kept the rule about no more than 2 target in the same event
     % order, to guarantee that all elements will be subject to repetition
-    eventIDs = 1:20;
+    eventIDs = 1:20; 
     whichEvent = repmat(eventIDs, NB_BLOCKS, 1);
     
-    while 1
-        
-        % Try shuffling every row (run)
-        for s = 1:size(whichEvent,1)
-            shuffledEvents(s,:) = shuffle(whichEvent(s,:));
-        end
-        
-        % Check coloumns for repetitions: max 2 for every condition (see
-        % C1_INDEX etc)
-        for c = 1:size(whichEvent,2)
-            % Get the unique values of each condition
-            nr_1 = unique(shuffledEvents(C1_INDEX',c));
-            nr_2 = unique(shuffledEvents(C2_INDEX',c));
-            nr_3 = unique(shuffledEvents(C3_INDEX',c));
-            nr_4 = unique(shuffledEvents(C4_INDEX',c));
-            nr_5 = unique(shuffledEvents(C5_INDEX',c));
-            nr_6 = unique(shuffledEvents(C6_INDEX',c));
-            
-            % Check each condition
-            for u = 1:length(nr_1)
-                if sum(shuffledEvents(C1_INDEX',c) == nr_1(u)) > 2 
-                    break;
-                end
-            end
-        end
-        
-        
-        for iBlock = 1:NB_BLOCKS
-            
-            nbTarget = numTargetsForEachBlock(iBlock);
-            chosenPosition = setTargetPositionInSequence(NB_EVENTS_PER_BLOCK, ...
-                                                         nbTarget, ...
-                                                         [1 NB_EVENTS_PER_BLOCK]);
-            repetitionTargets(iBlock, chosenPosition) = 1;
-        end
-
-        % Check rule 3
-        if max(sum(repetitionTargets)) < NB_REPETITIONS - 1
-            break
-        end
+    % Shuffle every row (run): doesn't control whether the same ID is
+    % repeated in the same position over and over
+    for s = 1:size(whichEvent,1)
+        shuffledEv(s,:) = shuffle(whichEvent(s,:));
     end
 
+    %% Create repetitions
+    % Merge target matrix and shullfed matrix, duplicating the element with
+    % the target
+    presentationMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
+    % new target matrix that considers the more elements we have
+    targetMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
+    
+    for k = 1:size(repetitionTargets,1)
+        e = 1; % index to go through the new matrix. Will skip ahead when encountering a target
+        
+        for m = 1:size(repetitionTargets,2)
+            % If there is a target, put the image twice in the presentation
+            % matrix, otherwise just once
+            if repetitionTargets(k,m) == 1
+                presentationMatrix(k,e) = shuffledEv(k,m);
+                e = e + 1;
+                % do it again (and add the target where it should be)
+                presentationMatrix(k,e) = shuffledEv(k,m);
+                targetMatrix(k,e) = 1;
+                e = e + 1;
+            else % == 0
+                presentationMatrix(k,e) = shuffledEv(k,m);
+                e = e + 1;
+            end
+        end
+    end
+    
     %% Now we do the easy stuff
     cfg.design.blockNames = assignConditions(cfg);
     cfg.design.nbBlocks = NB_BLOCKS;
     cfg.design.repetitionTargets = repetitionTargets;
+    
     % Length of block is 20, plus possible repetitions due to target
     cfg.design.lengthBlock = numTargetsForEachBlock + 20; 
+    cfg.design.presMatrix = presentationMatrix;
+    cfg.design.targetMatrix = targetMatrix;
 
     %% Plot
     diplayDesign(cfg, displayFigs);
