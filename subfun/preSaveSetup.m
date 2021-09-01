@@ -14,7 +14,7 @@ function varargout = preSaveSetup(varargin)
     thisEvent.duration = duration;
     thisEvent.onset = onset - cfg.experimentStart;
     thisEvent.fixationPosition = thisFixation.fixation.xDisplacement;
-    thisEvent.imagePresented = imgToSave;
+    thisEvent.image = imgToSave;
     
         % Save the events txt logfile
     % we save event by event so we clear this variable every loop

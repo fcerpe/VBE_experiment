@@ -8,7 +8,6 @@
 % Last update 11/08/2021
 
 getOnlyPress = 1;
-% more off;
 
 % Clear all the previous stuff
 clc;
@@ -25,6 +24,7 @@ cfg = setParameters;
 cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
+% load the stimuli from inputs
 load('localizer_sota0831.mat');
 
 %%  Experiment
@@ -35,7 +35,7 @@ try
     
     % creates window and launches, with all the parameters
     cfg = initPTB(cfg);
-
+    
     % creates design of experiment: re-made suited on me 
     cfg = expDesign(cfg);
         
@@ -63,9 +63,9 @@ try
 
     %% Actual presentation of stimuli
 
-    for iBlock = 1:cfg.design.nbBlocks
+    for iBlock = 1:1
 
-        fprintf('\n - Running Block %.0f \n', iBlock);
+        fprintf('\n Running Block %.0f - %s\n', iBlock, string(cfg.design.blockNames{iBlock})); 
         previousEvent.target = 0;
         
         % For each event in the block
@@ -89,7 +89,7 @@ try
             % string(cfg.design.names(iBlock))
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
             
-            % Temp
+            % Temp, until LD and scrambling 
             if iBlock == 2 || iBlock == 8 || iBlock == 14 || iBlock == 20 || ...
                iBlock == 26 || iBlock == 32 || iBlock == 38 || iBlock == 44 || iBlock == 50 || ...
                iBlock == 56 || iBlock == 62 || iBlock == 68
@@ -112,7 +112,7 @@ try
             [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
             % Different from full path, we only care about the file itself
-            imgToSave = string(cfg.stimuli.list{currentImgIndex});
+            imgToSave = char(stimuli.variableNames(currentImgIndex));
             
             thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
                                      duration, onset, cfg, imgToSave, logFile);

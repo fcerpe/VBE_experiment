@@ -63,7 +63,7 @@ function initEnv
         addDependencies();
     end
 
-    disp('Correct matlab/octave verions and added to the path!');
+%     disp('Correct matlab/octave verions and added to the path!');
 
 end
 
