@@ -12,7 +12,7 @@
         "Description": "duration of the event or the block",
         "Units": "s"
     },
-    "direction": {
+    "image": {
         "Description": "",
         "Levels": {
         },

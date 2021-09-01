@@ -47,7 +47,7 @@ function [cfg] = setParameters()
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
 
-    cfg.design.nbRepetitions = 1;
+    cfg.design.nbRepetitions = 12;
     cfg.design.nbEventsPerBlock = 20; % DO NOT CHANGE. why?
 
     %% Timing

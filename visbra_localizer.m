@@ -25,6 +25,7 @@ cfg = setParameters;
 cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
+load('localizer_sota0831.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes
@@ -88,9 +89,24 @@ try
             % string(cfg.design.names(iBlock))
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
             
-            thisImage = 'inputs/' + string(cfg.design.blockNames{iBlock}) + ...
-                        '/' + string(cfg.stimuli.list{currentImgIndex}); % Get it from an array            
-
+            % Temp
+            if iBlock == 2 || iBlock == 8 || iBlock == 14 || iBlock == 20 || ...
+               iBlock == 26 || iBlock == 32 || iBlock == 38 || iBlock == 44 || iBlock == 50 || ...
+               iBlock == 56 || iBlock == 62 || iBlock == 68
+                folder = string(cfg.design.blockNames{1});
+            elseif iBlock == 5 || iBlock == 11 || iBlock == 17 || iBlock == 23 || ...
+                   iBlock == 29 || iBlock == 35 || iBlock == 41 || iBlock == 47 || iBlock == 53 || ...
+                   iBlock == 59 || iBlock == 65 || iBlock == 71
+                folder = string(cfg.design.blockNames{3});
+            elseif iBlock == 6 || iBlock == 12 || iBlock == 18 || iBlock == 24 || ...
+                   iBlock == 30 || iBlock == 36 || iBlock == 42 || iBlock == 48 || iBlock == 54 || ...
+                   iBlock == 60 || iBlock == 66 || iBlock == 72
+                folder = string(cfg.design.blockNames{4}); 
+            else
+                folder = string(cfg.design.blockNames{iBlock});
+            end
+            eval(['thisImage = images.' char(folder) '.scr_' char(stimuli.variableNames(currentImgIndex)) ';']);
+                      
             % DO THE THING
             % show the current image / stimulus and collect onset and duraton of the event
             [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
