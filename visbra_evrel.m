@@ -1,11 +1,11 @@
-%% Visual Braille study - VWFA event related experiment 
+%% Visual Braille study - VWFA localizer
 %
 % Orinigally from cpp_lab\visual_motion_localizer
 % (C) Copyright 2018 Mohamed Rezk
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 09/10/2021
+% Last update 11/08/2021
 
 getOnlyPress = 1;
 
@@ -25,7 +25,7 @@ cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
-load('mvpa_sota1008.mat');
+load('localizer_sota0907.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes
@@ -63,12 +63,13 @@ try
 
     %% Actual presentation of stimuli
 
-    for iBlock = 1:cfg.design.nbBlocks
+    for iBlock = 1:1
 
         fprintf('\n Running Block %.0f - %s\n', iBlock, string(cfg.design.blockNames{iBlock})); 
         previousEvent.target = 0;
         
-        % For each event in the block        
+        % For each event in the block
+        
         for iEvent = 1:cfg.design.lengthBlock(iBlock)
             
             % Check for experiment abortion from operator
@@ -82,15 +83,31 @@ try
                                cfg.pacedByTriggers.nbTriggers);
             end
 
-            % Get the image file 
+            % we want to initialize the image when targets type is fixation cross
+            % or if this the first event of a target pair
+            % Get the path of the specific .png image 
+            % string(cfg.design.names(iBlock))
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
             
-            folder = char(cfg.design.blockNames{iBlock});
-            file = char(stimuli.variableNames(currentImgIndex));
-            
-            eval(['thisImage = images.' folder '.' file ';']);
+            % Temp, until LD and scrambling 
+            if iBlock == 2 || iBlock == 8 || iBlock == 14 || iBlock == 20 || ...
+               iBlock == 26 || iBlock == 32 || iBlock == 38 || iBlock == 44 || iBlock == 50 || ...
+               iBlock == 56 || iBlock == 62 || iBlock == 68
+                folder = string(cfg.design.blockNames{1});
+            elseif iBlock == 5 || iBlock == 11 || iBlock == 17 || iBlock == 23 || ...
+                   iBlock == 29 || iBlock == 35 || iBlock == 41 || iBlock == 47 || iBlock == 53 || ...
+                   iBlock == 59 || iBlock == 65 || iBlock == 71
+                folder = string(cfg.design.blockNames{3});
+            elseif iBlock == 6 || iBlock == 12 || iBlock == 18 || iBlock == 24 || ...
+                   iBlock == 30 || iBlock == 36 || iBlock == 42 || iBlock == 48 || iBlock == 54 || ...
+                   iBlock == 60 || iBlock == 66 || iBlock == 72
+                folder = string(cfg.design.blockNames{4}); 
+            else
+                folder = string(cfg.design.blockNames{iBlock});
+            end
+            eval(['thisImage = images.' char(folder) '.scr_' char(stimuli.variableNames(currentImgIndex)) ';']);
                       
-            % DO THE (RIGHT) THING
+            % DO THE THING
             % show the current image / stimulus and collect onset and duraton of the event
             [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
@@ -114,6 +131,8 @@ try
 
             waitFor(cfg, cfg.timing.ISI);
             
+            % 1-back: IF the target is one, the event must be repeated
+
         end
 
         % "prepare" cross for the baseline block
@@ -143,8 +162,10 @@ try
         % trigger monitoring
         triggerEvents = getResponse('check', cfg.keyboard.responseBox, cfg, ...
                                     getOnlyPress);
+
         triggerString = 'trigger_baseline';
         saveResponsesAndTriggers(triggerEvents, cfg, logFile, triggerString);
+
     end
 
     % End of the run for the BOLD to go down

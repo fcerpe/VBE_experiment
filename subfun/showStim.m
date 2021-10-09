@@ -30,11 +30,8 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
         % Make the image into a texture
         imageTexture = Screen('MakeTexture', cfg.screen.win, thisImage);
         
-%         DrawFormattedText(cfg.screen.win, char(thisImage), 'center', 'center', cfg.text.color);
-
         % Draw the image to the screen, unless otherwise specified PTB will draw
-        % the texture full size in the center of the screen. We first draw the
-        % image in its correct orientation.
+        % the texture full size in the center of the screen
         Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
                 
         vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
@@ -47,6 +44,8 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
     %% Erase last dots
 
     Screen('DrawingFinished', cfg.screen.win);
+    
+    Screen('Close');
 
     vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
 
