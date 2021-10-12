@@ -15,7 +15,7 @@ function [cfg] = setParameters()
     %% Debug mode settings
 
     cfg.debug.do = false; % To test the script out of the scanner, skip PTB sync
-    cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
+    cfg.debug.smallWin = true; % To test on a part of the screen, change to 1
     cfg.debug.transpWin = false; % To test with trasparent full size screen
     cfg.debug.showMouse = false;
 
@@ -47,15 +47,15 @@ function [cfg] = setParameters()
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
 
-    cfg.design.nbRepetitions = 12;
-    cfg.design.nbEventsPerBlock = 20; % DO NOT CHANGE. why?
+    cfg.design.nbRepetitions = 6;
+    cfg.design.nbEventsPerBlock = 20; 
 
     %% Timing
 
-    cfg.timing.eventDuration = 0.5; % second
+    cfg.timing.eventDuration = 1; % second
 
     % Time between blocs in secs
-    cfg.timing.IBI = 0;
+    cfg.timing.IBI = 6;
     % Time between events in secs
     cfg.timing.ISI = 0.01;
     % Number of seconds before the motion stimuli are presented
@@ -72,9 +72,9 @@ function [cfg] = setParameters()
         cfg.timing.eventDuration = cfg.mri.repetitionTime / 2 - 0.04; % second
 
         % Time between blocs in secs
-        cfg.timing.IBI = 1;
+        cfg.timing.IBI = 6;
         % Time between events in secs
-        cfg.timing.ISI = 0;
+        cfg.timing.ISI = 0.1;
         % Number of seconds before the motion stimuli are presented
         cfg.timing.onsetDelay = 0;
         % Number of seconds after the end all the stimuli before ending the run
@@ -87,10 +87,7 @@ function [cfg] = setParameters()
     % List of objects represented: same order in all the folders, lets us
     % speed up the 'get which image' phase
     % 10-8-2021: Let's start with only one
-    cfg.stimuli.list = {'img1.png', 'img2.png', 'img3.png', 'img4.png', 'img5.png',...
-                        'img6.png', 'img7.png', 'img8.png', 'img9.png', 'img10.png',...
-                        'img11.png','img12.png','img13.png','img14.png','img15.png',...
-                        'img16.png','img17.png','img18.png','img19.png','img20.png'};
+    
     %% Task(s)
     cfg.task.name = 'visual localizer';
 
@@ -106,7 +103,7 @@ function [cfg] = setParameters()
     cfg.fixation.yDisplacement = 0;
 
     % target
-    cfg.target.maxNbPerBlock = 2;
+    cfg.target.maxNbPerBlock = 1;
     cfg.target.duration = 0.1; % In secs
     cfg.target.type = 'repetition';
     

@@ -25,7 +25,8 @@ cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
-load('mvpa_sota1008.mat');
+% Need to create them actually
+load('localizer_sota1008.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes

@@ -1,4 +1,4 @@
-%% Visual Braille study - VWFA localizer
+%% Visual Braille study - VWFA event related (for MVPA)
 %
 % Orinigally from cpp_lab\visual_motion_localizer
 % (C) Copyright 2018 Mohamed Rezk

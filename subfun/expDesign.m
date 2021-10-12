@@ -54,22 +54,17 @@ function [cfg] = expDesign(cfg, displayFigs)
     % Modified: added the 0 targets condition   
     RANGE_TARGETS = 0:MAX_TARGET_PER_BLOCK;
     
-    if NB_REPETITIONS == 1 % Only one repetition is for coding: just one to see how things work (if they do)
-        targetPerCondition = repmat(RANGE_TARGETS, 1, 2);
-        numTargetsForEachBlock = shuffle(targetPerCondition);
-        
-    else % Usual way of doing it
-        targetPerCondition = repmat(RANGE_TARGETS, 1, NB_REPETITIONS / (MAX_TARGET_PER_BLOCK+1));
-        
-        numTargetsForEachBlock = zeros(1, NB_BLOCKS);
-        numTargetsForEachBlock(C1_INDEX) = shuffle(targetPerCondition);
-        numTargetsForEachBlock(C2_INDEX) = shuffle(targetPerCondition);
-        numTargetsForEachBlock(C3_INDEX) = shuffle(targetPerCondition);
-        numTargetsForEachBlock(C4_INDEX) = shuffle(targetPerCondition);
-        numTargetsForEachBlock(C5_INDEX) = shuffle(targetPerCondition);
-        numTargetsForEachBlock(C6_INDEX) = shuffle(targetPerCondition);
-        
-    end
+    % Usual way of doing it
+    targetPerCondition = repmat(RANGE_TARGETS, 1, NB_REPETITIONS / (MAX_TARGET_PER_BLOCK+1));
+    
+    numTargetsForEachBlock = zeros(1, NB_BLOCKS);
+    numTargetsForEachBlock(C1_INDEX) = shuffle(targetPerCondition);
+    numTargetsForEachBlock(C2_INDEX) = shuffle(targetPerCondition);
+    numTargetsForEachBlock(C3_INDEX) = shuffle(targetPerCondition);
+    numTargetsForEachBlock(C4_INDEX) = shuffle(targetPerCondition);
+    numTargetsForEachBlock(C5_INDEX) = shuffle(targetPerCondition);
+    numTargetsForEachBlock(C6_INDEX) = shuffle(targetPerCondition);
+    
     
     %% Give the blocks the condition names and pick which events are targets
     % Task is 1-back: need to repeat random images either once or twice, based on
@@ -94,9 +89,6 @@ function [cfg] = expDesign(cfg, displayFigs)
         end
 
         % Check rule 3
-        if NB_REPETITIONS == 1 % No point in checking if only 1 repetition
-            break
-        end
         if max(sum(repetitionTargets)) < NB_REPETITIONS - 1
             break
         end
