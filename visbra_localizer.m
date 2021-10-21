@@ -26,7 +26,7 @@ cfg = createFilename(cfg);
 
 % load the stimuli from inputs
 % Need to create them actually
-load('localizer_sota1008.mat');
+load('localizer_sota1019.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes
@@ -84,6 +84,10 @@ try
             end
 
             % Get the image file 
+            %
+            % ADD A LAYER: THE INDEX IS NOT OF THE IMAGE BUT REDIRECTS TO
+            % THE RANDOMIZED ORDER OF PIPE7
+            
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
             
             folder = char(cfg.design.blockNames{iBlock});

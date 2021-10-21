@@ -15,7 +15,7 @@ function [cfg] = setParameters()
     %% Debug mode settings
 
     cfg.debug.do = false; % To test the script out of the scanner, skip PTB sync
-    cfg.debug.smallWin = true; % To test on a part of the screen, change to 1
+    cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
     cfg.debug.transpWin = false; % To test with trasparent full size screen
     cfg.debug.showMouse = false;
 
@@ -48,7 +48,7 @@ function [cfg] = setParameters()
     cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
 
     cfg.design.nbRepetitions = 6;
-    cfg.design.nbEventsPerBlock = 20; 
+    cfg.design.nbEventsPerBlock = 10; 
 
     %% Timing
 

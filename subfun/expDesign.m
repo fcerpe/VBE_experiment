@@ -94,22 +94,40 @@ function [cfg] = expDesign(cfg, displayFigs)
         end
     end
     
-    %% Shuffle events (words) in each block in a similar fashion
-    % Only kept the rule about no more than 2 target in the same event
-    % order, to guarantee that all elements will be subject to repetition
-    eventIDs = 1:20; 
-    whichEvent = repmat(eventIDs, NB_BLOCKS, 1);
+    %% Randomize, split, put in an ordered fashion
+    % randomize stimuli categories and repetitions, 
+    % then split into two groups,
+    % then create a nice matrix from which we can pick our stimuli
+    % matrix that holds the randomizations
+    randMatrix = zeros(NB_BLOCKS/2, 20); 
     
-    % Shuffle every row (run): doesn't control whether the same ID is
-    % repeated in the same position over and over
-    for s = 1:size(whichEvent,1)
-        shuffledEv(s,:) = shuffle(whichEvent(s,:));
+    for ri = 1:size(randMatrix,1) % fill the matrix with permutations of the order
+        randMatrix(ri,:) = shuffle(1:20);    
     end
+    
+    % matrix where the actual image indexes are stored. That's where we get
+    % which stimulus will be presented
+    shuffledEv = zeros(NB_BLOCKS,10);
+    
+    orep = 1;
+    for row = 1:NB_REPETITIONS 
 
+        iniInd = 6*(row-1)+1;
+        if mod(row,2) ~= 0 % if odd number, 1 3 5 
+            shuffledEv(iniInd:iniInd+5,:) = randMatrix(orep:orep+5, 1:10);
+        else
+            shuffledEv(iniInd:iniInd+5,:) = randMatrix(orep:orep+5, 11:20);
+            orep = orep+6; % increase counter after 2 reps
+        end
+    end
+    
     %% Create repetitions
     % Merge target matrix and shullfed matrix, duplicating the element with
     % the target
-    presentationMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
+    % in which order should we present the images? 8 = 8th image of the
+    % randomized order + split
+    orderMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
+    
     % new target matrix that considers the more elements we have
     targetMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
     
@@ -120,14 +138,14 @@ function [cfg] = expDesign(cfg, displayFigs)
             % If there is a target, put the image twice in the presentation
             % matrix, otherwise just once
             if repetitionTargets(k,m) == 1
-                presentationMatrix(k,e) = shuffledEv(k,m);
+                orderMatrix(k,e) = shuffledEv(k,m);
                 e = e + 1;
                 % do it again (and add the target where it should be)
-                presentationMatrix(k,e) = shuffledEv(k,m);
+                orderMatrix(k,e) = shuffledEv(k,m);
                 targetMatrix(k,e) = 1;
                 e = e + 1;
             else % == 0
-                presentationMatrix(k,e) = shuffledEv(k,m);
+                orderMatrix(k,e) = shuffledEv(k,m);
                 e = e + 1;
             end
         end
@@ -138,9 +156,9 @@ function [cfg] = expDesign(cfg, displayFigs)
     cfg.design.nbBlocks = NB_BLOCKS;
     cfg.design.repetitionTargets = repetitionTargets;
     
-    % Length of block is 20, plus possible repetitions due to target
-    cfg.design.lengthBlock = numTargetsForEachBlock + 20; 
-    cfg.design.presMatrix = presentationMatrix;
+    % Length of block is 10, plus possible repetition due to target
+    cfg.design.lengthBlock = numTargetsForEachBlock + 10; 
+    cfg.design.presMatrix = orderMatrix;
     cfg.design.targetMatrix = targetMatrix;
 
     %% Plot
