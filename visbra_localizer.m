@@ -5,7 +5,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 09/10/2021
+% Last update 21/10/2021
 
 getOnlyPress = 1;
 
@@ -84,10 +84,6 @@ try
             end
 
             % Get the image file 
-            %
-            % ADD A LAYER: THE INDEX IS NOT OF THE IMAGE BUT REDIRECTS TO
-            % THE RANDOMIZED ORDER OF PIPE7
-            
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
             
             folder = char(cfg.design.blockNames{iBlock});
