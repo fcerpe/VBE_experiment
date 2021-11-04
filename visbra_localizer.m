@@ -17,11 +17,11 @@ if ~ismac
 end
 
 % make sure we got access to all the required functions and inputs
-initEnv();
+visbra_initEnv();
 
 % set and load all the parameters to run the experiment
-cfg = setParameters;
-cfg = userInputs(cfg);
+cfg = visbra_setParameters;
+cfg = visbra_userInputs(cfg);
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
@@ -35,10 +35,10 @@ try
     %% Init the experiment
     
     % creates window and launches, with all the parameters
-    cfg = initPTB(cfg);
+    cfg = visbra_initPTB(cfg);
     
     % creates design of experiment: re-made suited on me 
-    cfg = expDesign(cfg);
+    cfg = visbra_expDesign(cfg);
         
     % Prepare for the output logfiles with all
     logFile.extraColumns = cfg.extraColumns;
@@ -93,7 +93,7 @@ try
                       
             % DO THE (RIGHT) THING
             % show the current image / stimulus and collect onset and duraton of the event
-            [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
+            [onset, duration] = visbra_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
             % Different from full path, we only care about the file itself
             imgToSave = char(stimuli.variableNames(currentImgIndex));
