@@ -26,7 +26,7 @@ cfg = createFilename(cfg);
 
 % load the stimuli from inputs
 % Need to create them actually
-load('localizer_sota1019.mat');
+load('input/localizer_sota1101.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes

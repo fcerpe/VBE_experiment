@@ -125,10 +125,10 @@ end
 
 function cfg = setMRI(cfg)
     % letter sent by the trigger to sync stimulation and volume acquisition
-    cfg.mri.triggerKey = 't';
-    cfg.mri.triggerNb = 0;
+    cfg.mri.triggerKey = 's';
+    cfg.mri.triggerNb = 1;
 
-    cfg.mri.repetitionTime = 1.8;
+    cfg.mri.repetitionTime = 1.75;
 
     cfg.bids.MRI.Instructions = 'Detect the repeated stimulus';
     cfg.bids.MRI.TaskDescription = [];
