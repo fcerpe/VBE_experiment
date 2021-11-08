@@ -82,17 +82,11 @@ function [cfg] = setParameters()
 
     end
 
-    %% Visual Stimuliation
-    
-    % List of objects represented: same order in all the folders, lets us
-    % speed up the 'get which image' phase
-    % 10-8-2021: Let's start with only one
-    
     %% Task(s)
     cfg.task.name = 'visual localizer';
 
     % Instruction
-    cfg.task.instruction = 'TASK - Detect the repetition \n \n\n';
+    cfg.task.instruction = 'TASK - détecte le stimulus répété \n \n\n';
 
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';

@@ -20,25 +20,24 @@ end
 visbra_initEnv();
 
 % set and load all the parameters to run the experiment
-cfg = visbra_setParameters;
+cfg = vbLoca_setParameters;
 cfg = visbra_userInputs(cfg);
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
 % Need to create them actually
-load('input/localizer_sota1101.mat');
+load('inputs/localizer_stimuli.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes
 try
     
     %% Init the experiment
-    
     % creates window and launches, with all the parameters
     cfg = visbra_initPTB(cfg);
     
     % creates design of experiment: re-made suited on me 
-    cfg = visbra_expDesign(cfg);
+    cfg = vbLoca_expDesign(cfg);
         
     % Prepare for the output logfiles with all
     logFile.extraColumns = cfg.extraColumns;
@@ -93,7 +92,7 @@ try
                       
             % DO THE (RIGHT) THING
             % show the current image / stimulus and collect onset and duraton of the event
-            [onset, duration] = visbra_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
+            [onset, duration] = vbLoca_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
             % Different from full path, we only care about the file itself
             imgToSave = char(stimuli.variableNames(currentImgIndex));
