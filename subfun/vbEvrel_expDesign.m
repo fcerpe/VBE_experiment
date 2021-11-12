@@ -1,13 +1,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
-function [cfg] = expDesign(cfg, displayFigs)
-    % TO MODIFY: no more static / motion. Just static and show some images
+function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     % 
-    % Creates the sequence of blocks and the events in them
-    % (Gives better results than randomised).
-    %
-    % Style guide: constants are in SNAKE_UPPER_CASE
-    %
     % TARGETS
     % Pseudorandomization rules:
     % (1) If there are more than 1 target per block we make sure that they are at least 2
@@ -45,32 +39,42 @@ function [cfg] = expDesign(cfg, displayFigs)
     end
 
     [NB_BLOCKS, NB_REPETITIONS, NB_EVENTS_PER_BLOCK, MAX_TARGET_PER_BLOCK] = getDesignInput(cfg);
-    [~, C1_INDEX, C2_INDEX, C3_INDEX, C4_INDEX, C5_INDEX, C6_INDEX] = assignConditions(cfg);
+%     [~, C1_INDEX, C2_INDEX, C3_INDEX, C4_INDEX] = assignConditions(cfg);
 
 %     if mod(NB_REPETITIONS, MAX_TARGET_PER_BLOCK) ~= 0
 %         error('number of repetitions must be a multiple of max number of targets');
 %     end
-
-    % Modified: added the 0 targets condition   
-    RANGE_TARGETS = 0:MAX_TARGET_PER_BLOCK;
     
-    % Usual way of doing it
-    targetPerCondition = repmat(RANGE_TARGETS, 1, NB_REPETITIONS / (MAX_TARGET_PER_BLOCK+1));
+    % Total of 8 targets (10% of 80 stimuli, 16*5). 
+    % Randomly distribute 8 targets in 5 repetitions
+    TOTAL_TARGETS = 6;
     
-    numTargetsForEachBlock = zeros(1, NB_BLOCKS);
-    numTargetsForEachBlock(C1_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C2_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C3_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C4_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C5_INDEX) = shuffle(targetPerCondition);
-    numTargetsForEachBlock(C6_INDEX) = shuffle(targetPerCondition);
-    
+    while true 
+        numTargetsForEachBlock = randi(2,1,NB_BLOCKS); % ones(1, NB_BLOCKS);
+        numNullsForEachBlock = shuffle(numTargetsForEachBlock);
+        
+        % logical controls: not too many stimuli (6 in total each)
+        notTooMany = sum(numTargetsForEachBlock) == TOTAL_TARGETS && sum(numNullsForEachBlock) == TOTAL_TARGETS;
+        
+        % not the same repetition has 2 blocks
+        notOverlapping = true;
+        for l = 1:NB_BLOCKS
+            if numTargetsForEachBlock(l) == 2 && numNullsForEachBlock(l) == 2
+                notOverlapping = false;
+            end
+        end
+                
+        % check 
+        if notTooMany && notOverlapping
+            break
+        end
+    end
     
     %% Give the blocks the condition names and pick which events are targets
     % Task is 1-back: need to repeat random images either once or twice, based on
     % # of targets 
     % repetitionTargets: 
-        
+
     while 1
         repetitionTargets = zeros(NB_BLOCKS, NB_EVENTS_PER_BLOCK);
        
@@ -89,47 +93,64 @@ function [cfg] = expDesign(cfg, displayFigs)
         end
 
         % Check rule 3
-        if max(sum(repetitionTargets)) < NB_REPETITIONS - 1
+        if max(sum(repetitionTargets)) < 3 % no more than 2
             break
         end
     end
     
-    %% Randomize, split, put in an ordered fashion
-    % randomize stimuli categories and repetitions, 
-    % then split into two groups,
-    % then create a nice matrix from which we can pick our stimuli
-    % matrix that holds the randomizations
-    randMatrix = zeros(NB_BLOCKS/2, 20); 
+    %% Create null trials matrix and targets 
+    % Must be different than 1 back targets, so not in the same position
+    % (+2,-2)
+    % Must enlarge matrix and put 0 as image ID
     
-    for ri = 1:size(randMatrix,1) % fill the matrix with permutations of the order
-        randMatrix(ri,:) = shuffle(1:20);    
-    end
+    do = true;
     
-    % matrix where the actual image indexes are stored. That's where we get
-    % which stimulus will be presented
-    shuffledEv = zeros(NB_BLOCKS,10);
-    
-    orep = 1;
-    for row = 1:NB_REPETITIONS 
-
-        iniInd = 6*(row-1)+1;
-        if mod(row,2) ~= 0 % if odd number, 1 3 5 
-            shuffledEv(iniInd:iniInd+5,:) = randMatrix(orep:orep+5, 1:10);
-        else
-            shuffledEv(iniInd:iniInd+5,:) = randMatrix(orep:orep+5, 11:20);
-            orep = orep+6; % increase counter after 2 reps
+    while do
+        
+        nullTargets = zeros(NB_BLOCKS, NB_EVENTS_PER_BLOCK);
+        
+        for iBlock = 1:NB_BLOCKS
+            nbTarget = numNullsForEachBlock(iBlock);
+            chosenPosition = setTargetPositionInSequence(NB_EVENTS_PER_BLOCK, nbTarget, [1 2 NB_EVENTS_PER_BLOCK-1 NB_EVENTS_PER_BLOCK]);
+            
+            for k = 1:length(chosenPosition)
+                j = chosenPosition(k);
+                % if in the repetition matrix there is not an event nearr-by (-2 position to +2 positions)
+                if ~(repetitionTargets(iBlock,j-2) == 1 || repetitionTargets(iBlock,j-1) == 1 || ...
+                        repetitionTargets(iBlock,j) == 1 || repetitionTargets(iBlock,j+1) == 1 || ...
+                        repetitionTargets(iBlock,j+2) == 1)
+                    
+                    % safe position, add it
+                    nullTargets(iBlock, j) = 2;
+                end
+            end
+        end
+        
+        % all targets have been placed and no more than 2 in a coloumn
+        if sum(nullTargets,'all') == TOTAL_TARGETS*2 && max(sum(nullTargets)) < 5
+            break
         end
     end
+
+    %% Randomize events order in each "block" and add the 0 as null
+    % matrix that holds the randomizations
+    shuffledEv = zeros(NB_BLOCKS, 16); 
     
-    %% Create repetitions
+    % Put into a single row, split in two, assign the corresponding stimuli
+    
+    for ri = 1:NB_BLOCKS % fill the matrix with permutations of the order
+        shuffledEv(ri,:) = shuffle(1:16);    
+    end
+       
+    %% Create repetitions, nulls, targets
     % Merge target matrix and shullfed matrix, duplicating the element with
     % the target
     % in which order should we present the images? 8 = 8th image of the
     % randomized order + split
-    orderMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
+    orderMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK+1); 
     
     % new target matrix that considers the more elements we have
-    targetMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK); 
+    targetMatrix = zeros(NB_BLOCKS,NB_EVENTS_PER_BLOCK + MAX_TARGET_PER_BLOCK+1); 
     
     for k = 1:size(repetitionTargets,1)
         e = 1; % index to go through the new matrix. Will skip ahead when encountering a target
@@ -144,12 +165,31 @@ function [cfg] = expDesign(cfg, displayFigs)
                 orderMatrix(k,e) = shuffledEv(k,m);
                 targetMatrix(k,e) = 1;
                 e = e + 1;
-            else % == 0
+            elseif nullTargets(k,m) == 2 % no repetition but null trial
+                orderMatrix(k,e) = 0;
+                targetMatrix(k,e) = 2;
+                e = e + 1;
+                % then add the following one too, so the lopps don't get
+                % messy
+                orderMatrix(k,e) = shuffledEv(k,m);
+                e = e + 1;
+            else % neither
                 orderMatrix(k,e) = shuffledEv(k,m);
                 e = e + 1;
             end
         end
     end
+       
+    %% Create ISI matrix with variations
+    % 
+    isi = cfg.timing.ISI;
+    % total length is equal to num of blocks * events per block
+    sizes = size(orderMatrix);                  % get sizes
+    totLength = round((sizes(1) * sizes(2))/3); % how many repetitions?
+    isiArray = repmat(isi,1,totLength);         % repeat matrix
+    isiArray = shuffle(isiArray);               % randomize it
+    isiArray = horzcat(isiArray,0);             % add a zero to make calcs easier
+    isiMatrix = reshape(isiArray,[sizes(1), sizes(2)]);
     
     %% Now we do the easy stuff
     cfg.design.blockNames = assignConditions(cfg);
@@ -157,9 +197,10 @@ function [cfg] = expDesign(cfg, displayFigs)
     cfg.design.repetitionTargets = repetitionTargets;
     
     % Length of block is 10, plus possible repetition due to target
-    cfg.design.lengthBlock = numTargetsForEachBlock + 10; 
+    cfg.design.lengthBlock = numTargetsForEachBlock + numNullsForEachBlock + 16; 
     cfg.design.presMatrix = orderMatrix;
     cfg.design.targetMatrix = targetMatrix;
+    cfg.design.isiMatrix = isiMatrix;
 
     %% Plot
     diplayDesign(cfg, displayFigs);

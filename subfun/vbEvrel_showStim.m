@@ -24,16 +24,18 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
     % is included with PTB
     
     while framesLeft
-        %% draw evetything and flip screen
-
-        % DrawFormattedText(cfg.screen.win, 'IMAGE TO COME', 'center','center');
-        % Make the image into a texture
+        % WORDS
         imageTexture = Screen('MakeTexture', cfg.screen.win, thisImage);
         
-        % Draw the image to the screen, unless otherwise specified PTB will draw
-        % the texture full size in the center of the screen
+        % Draw the image to the screen, no infos = full size and centered
         Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
                 
+        % FIXATION
+        thisFixation.fixation.color = cfg.fixation.color;
+        drawFixation(thisFixation);
+
+        Screen('DrawingFinished', cfg.screen.win);
+
         vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
 
         %% Update counters
@@ -41,8 +43,10 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
         framesLeft = framesLeft - 1;
     end
 
-    %% Erase last dots
+    %% Clear word and keep fixation
 
+    drawFixation(thisFixation);
+    
     Screen('DrawingFinished', cfg.screen.win);
     
     Screen('Close');

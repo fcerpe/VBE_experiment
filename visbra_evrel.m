@@ -5,15 +5,14 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 11/08/2021
+% Last update 11/11/2021
 
 getOnlyPress = 1;
 
 % Clear all the previous stuff
 clc;
 if ~ismac
-    close all;
-    clear Screen;
+    close all;  clear Screen;
 end
 
 % make sure we got access to all the required functions and inputs
@@ -25,7 +24,7 @@ cfg = visbra_userInputs(cfg);
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
-load('localizer_sota0907.mat');
+load('inputs/mvpa_stimuli.mat');
 
 %%  Experiment
 % Safety loop: close the screen if code crashes
@@ -44,9 +43,6 @@ try
     logFile = saveEventsFile('init', cfg, logFile);
     logFile = saveEventsFile('open', cfg, logFile);
 
-    % Show experiment instruction
-    standByScreen(cfg);
-
     % prepare the KbQueue to collect responses
     getResponse('init', cfg.keyboard.responseBox, cfg);
 
@@ -59,17 +55,20 @@ try
     cfg = getExperimentStart(cfg);
     
     getResponse('start', cfg.keyboard.responseBox);
+    
     waitFor(cfg, cfg.timing.onsetDelay);
 
     %% Actual presentation of stimuli
+    
+    fprintf('\n Running Run %.0f - %s\n', string(cfg.subject.runNb)); 
+    
+    % By blocks we actually mean chunks / repetitions of stimuli.
+    % there's no IBI in fact, but it keeps things in order
+    for iBlock = 1:cfg.design.nbBlocks
 
-    for iBlock = 1:1
-
-        fprintf('\n Running Block %.0f - %s\n', iBlock, string(cfg.design.blockNames{iBlock})); 
         previousEvent.target = 0;
         
-        % For each event in the block
-        
+        % For each event in the "block" 
         for iEvent = 1:cfg.design.lengthBlock(iBlock)
             
             % Check for experiment abortion from operator
@@ -83,41 +82,43 @@ try
                                cfg.pacedByTriggers.nbTriggers);
             end
 
-            % we want to initialize the image when targets type is fixation cross
-            % or if this the first event of a target pair
             % Get the path of the specific .png image 
             % string(cfg.design.names(iBlock))
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
             
-            % Temp, until LD and scrambling 
-            eval(['thisImage = images.' char(folder) '.scr_' char(stimuli.variableNames(currentImgIndex)) ';']);
+            % Go pick the corresponding image 
+            % w0 is a images made of only zeros, so no word dispalyed
+            % IMPORTANT: with the indented targets, choose the folder beforehand
+            eval(['thisImage = images.words.w' char(string(currentImgIndex)) ';']);
                       
-            % DO THE THING
-            % show the current image / stimulus and collect onset and duraton of the event
+            % WORD EVENT
+            % show the word and collect onset and duraton of the event
             [onset, duration] = vbEvrel_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
-
-            % Different from full path, we only care about the file itself
-            imgToSave = char(stimuli.variableNames(currentImgIndex));
             
+            % Save image ID 
+            if currentImgIndex == 0
+                currentImgIndex = 17;
+            end
+            imgToSave = char(stimuli.eventNames(currentImgIndex));
+            
+            % Save word event
             thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
                                      duration, onset, cfg, imgToSave, logFile);
 
             saveEventsFile('save', cfg, thisEvent);
 
-            % collect the responses and appends to the event structure for
-            % saving in the tsv file
-            responseEvents = getResponse('check', cfg.keyboard.responseBox, cfg, ...
-                                         getOnlyPress);
+            % collect the responses and appends to the event structure for saving in the tsv file
+            responseEvents = getResponse('check', cfg.keyboard.responseBox, cfg, getOnlyPress);
 
             triggerString = ['trigger_' cfg.design.blockNames{iBlock}];
             saveResponsesAndTriggers(responseEvents, cfg, logFile, triggerString);
-
+          
             previousEvent = thisEvent;
 
-            waitFor(cfg, cfg.timing.ISI);
+            % wait accordingly to the randomized variable delay
+            % plus, draw fixation (inside the waitFor function)
+            waitFor(cfg, cfg.design.isiMatrix(iBlock,iEvent));
             
-            % 1-back: IF the target is one, the event must be repeated
-
         end
 
         % "prepare" cross for the baseline block
@@ -128,22 +129,6 @@ try
             nextBlock = cfg.design.nbBlocks;
         end
         
-        waitFor(cfg, cfg.timing.IBI);
-
-        % IBI trigger paced
-        if cfg.pacedByTriggers.do
-            waitForTrigger(cfg, ...
-                           cfg.keyboard.responseBox, ...
-                           cfg.pacedByTriggers.quietMode, ...
-                           cfg.timing.triggerIBI);
-        end
-
-        if isfield(cfg.design, 'localizer') && strcmpi(cfg.design.localizer, 'MT_MST') && iBlock == cfg.design.nbBlocks / 2
-
-            waitFor(cfg, cfg.timing.changeFixationPosition);
-
-        end
-
         % trigger monitoring
         triggerEvents = getResponse('check', cfg.keyboard.responseBox, cfg, ...
                                     getOnlyPress);
@@ -165,8 +150,6 @@ try
     getResponse('release', cfg.keyboard.responseBox);
 
     createJson(cfg, cfg);
-
-    farewellScreen(cfg);
 
     cleanUp();
 

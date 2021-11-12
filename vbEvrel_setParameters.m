@@ -1,6 +1,6 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
-function [cfg] = setParameters()
+function [cfg] = vbEvrel_setParameters()
 
     % VISUAL LOCALIZER
 
@@ -17,7 +17,7 @@ function [cfg] = setParameters()
     cfg.debug.do = false; % To test the script out of the scanner, skip PTB sync
     cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
     cfg.debug.transpWin = false; % To test with trasparent full size screen
-    cfg.debug.showMouse = false;
+    cfg.debug.showMouse = true;
 
     cfg.skipSyncTests = 1;
 
@@ -45,45 +45,27 @@ function [cfg] = setParameters()
     cfg.design.localizer = 'VWFA';
     
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
-    cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
+    cfg.design.names = {'rep1','rep2','rep3','rep4'};
 
-    cfg.design.nbRepetitions = 6;
-    cfg.design.nbEventsPerBlock = 10; 
+    cfg.design.nbRepetitions = 1;
+    cfg.design.nbEventsPerBlock = 16; 
 
     %% Timing
 
-    cfg.timing.eventDuration = 1; % second
+    cfg.timing.eventDuration = 2 - (1/60)*11; % second
 
     % Time between blocs in secs
-    cfg.timing.IBI = 6;
+    cfg.timing.IBI = 0;
     % Time between events in secs
-    cfg.timing.ISI = 0.01;
+    cfg.timing.ISI = [2 2.5 3];
     % Number of seconds before the motion stimuli are presented
     cfg.timing.onsetDelay = 0;
     % Number of seconds after the end all the stimuli before ending the run
     cfg.timing.endDelay = 3.6;
 
-    % reexpress those in terms of repetition time
-    if cfg.pacedByTriggers.do
-
-        cfg.pacedByTriggers.quietMode = true;
-        cfg.pacedByTriggers.nbTriggers = 5;
-
-        cfg.timing.eventDuration = cfg.mri.repetitionTime / 2 - 0.04; % second
-
-        % Time between blocs in secs
-        cfg.timing.IBI = 6;
-        % Time between events in secs
-        cfg.timing.ISI = 0.1;
-        % Number of seconds before the motion stimuli are presented
-        cfg.timing.onsetDelay = 0;
-        % Number of seconds after the end all the stimuli before ending the run
-        cfg.timing.endDelay = 2;
-
-    end
 
     %% Task(s)
-    cfg.task.name = 'visual localizer';
+    cfg.task.name = 'vb_1B_evrel';
 
     % Instruction
     cfg.task.instruction = 'TASK - détecte le stimulus répété \n \n\n';
@@ -91,13 +73,14 @@ function [cfg] = setParameters()
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';
     cfg.fixation.color = cfg.color.white;
-    cfg.fixation.width = .25;
+    cfg.fixation.width = .1;
     cfg.fixation.lineWidthPix = 3;
     cfg.fixation.xDisplacement = 0;
     cfg.fixation.yDisplacement = 0;
 
-    % target
-    cfg.target.maxNbPerBlock = 1;
+    
+    % target (referring to the words)
+    cfg.target.maxNbPerBlock = 2; % 10% of 80 is 8, splitted into 5 blocks
     cfg.target.duration = 0.1; % In secs
     cfg.target.type = 'repetition';
     

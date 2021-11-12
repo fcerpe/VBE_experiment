@@ -52,7 +52,7 @@ function [cfg] = setParameters()
 
     %% Timing
 
-    cfg.timing.eventDuration = 1; % second
+    cfg.timing.eventDuration = 1; %1 - (1/60)*2; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
