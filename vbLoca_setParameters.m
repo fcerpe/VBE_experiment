@@ -1,6 +1,6 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
-function [cfg] = setParameters()
+function [cfg] = vbLoca_setParameters()
 
     % VISUAL LOCALIZER
 
@@ -52,7 +52,7 @@ function [cfg] = setParameters()
 
     %% Timing
 
-    cfg.timing.eventDuration = 1; %1 - (1/60)*2; % second
+    cfg.timing.eventDuration = 1 - (1/60)*7; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
@@ -86,7 +86,7 @@ function [cfg] = setParameters()
     cfg.task.name = 'visual localizer';
 
     % Instruction
-    cfg.task.instruction = 'TASK - détecte le stimulus répété \n \n\n';
+    cfg.task.instruction = 'Détecte le stimulus répété';
 
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';
@@ -107,7 +107,7 @@ end
 
 function cfg = setKeyboards(cfg)
     cfg.keyboard.escapeKey = 'ESCAPE';
-    cfg.keyboard.responseKey = {'r', 'g', 'y', 'b','d', 'n', 'z', 'e','t'};
+    cfg.keyboard.responseKey = {'c','b','t'};
     cfg.keyboard.keyboard = [];
     cfg.keyboard.responseBox = [];
 
@@ -124,7 +124,7 @@ function cfg = setMRI(cfg)
 
     cfg.mri.repetitionTime = 1.75;
 
-    cfg.bids.MRI.Instructions = 'Detect the repeated stimulus';
+    cfg.bids.MRI.Instructions = 'Détecte le stimulus répété';
     cfg.bids.MRI.TaskDescription = [];
 
 end

@@ -65,10 +65,10 @@ function [cfg] = vbEvrel_setParameters()
 
 
     %% Task(s)
-    cfg.task.name = 'vb_1B_evrel';
+    cfg.task.name = 'visual event related';
 
     % Instruction
-    cfg.task.instruction = 'TASK - détecte le stimulus répété \n \n\n';
+    cfg.task.instruction = 'Détecte le stimulus répété';
 
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';
@@ -90,7 +90,7 @@ end
 
 function cfg = setKeyboards(cfg)
     cfg.keyboard.escapeKey = 'ESCAPE';
-    cfg.keyboard.responseKey = {'r', 'g', 'y', 'b','d', 'n', 'z', 'e','t'};
+    cfg.keyboard.responseKey = {'c','b','t'};
     cfg.keyboard.keyboard = [];
     cfg.keyboard.responseBox = [];
 

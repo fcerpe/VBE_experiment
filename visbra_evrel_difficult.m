@@ -5,7 +5,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 11/11/2021
+% Last update 15/11/2021
 
 getOnlyPress = 1;
 
@@ -60,11 +60,13 @@ try
 
     %% Actual presentation of stimuli
     
-    fprintf('\n Running Run %.0f - %s\n', string(cfg.subject.runNb)); 
+    fprintf('\n Running Run %.0f \n', string(cfg.subject.runNb)); 
     
     % By blocks we actually mean chunks / repetitions of stimuli.
     % there's no IBI in fact, but it keeps things in order
     for iBlock = 1:cfg.design.nbBlocks
+        
+        leftTarget = true;
 
         previousEvent.target = 0;
         
@@ -76,6 +78,12 @@ try
 
             [thisEvent, thisFixation, cfg] = preTrialSetup(cfg, iBlock, iEvent);
 
+            % we wait for a trigger every 2 events
+            if cfg.pacedByTriggers.do && mod(iEvent, 2) == 1
+                waitForTrigger(cfg, cfg.keyboard.responseBox, cfg.pacedByTriggers.quietMode, ...
+                               cfg.pacedByTriggers.nbTriggers);
+            end
+
             % Get the path of the specific .png image 
             % string(cfg.design.names(iBlock))
             currentImgIndex = cfg.design.presMatrix(iBlock,iEvent);
@@ -83,20 +91,35 @@ try
             % Go pick the corresponding image 
             % w0 is a images made of only zeros, so no word dispalyed
             % IMPORTANT: with the indented targets, choose the folder beforehand
-            eval(['thisImage = images.center.w' char(string(currentImgIndex)) ';']);
+            switch cfg.design.tiltMatrix(iBlock,iEvent) 
+                case -1
+                    shift = 'left';
+                case 0
+                    shift = 'center';
+                case 1
+                    shift = 'right';
+            end
+            
+            % if there's a null event, pick it from the center
+            if cfg.design.targetMatrix(iBlock,iEvent) == 2
+                shift = 'center';
+            end
+            
+            pickStimString = horzcat('thisImage = images.',shift,'.w',char(string(currentImgIndex)),';');
+            eval(pickStimString);
                       
             % WORD EVENT
             % show the word and collect onset and duraton of the event
             [onset, duration] = vbEvrel_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
             
-            % Save image ID 
+            % Save image ID,if0, index 17 contains 'null'
             if currentImgIndex == 0
                 currentImgIndex = 17;
             end
             imgToSave = char(stimuli.eventNames(currentImgIndex));
             
             % Save word event
-            thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
+            thisEvent = preSaveSetup(thisEvent, thisFixation, shift, iEvent, ...
                                      duration, onset, cfg, imgToSave, logFile);
 
             saveEventsFile('save', cfg, thisEvent);

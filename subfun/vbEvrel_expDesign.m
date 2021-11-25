@@ -186,10 +186,20 @@ function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     % total length is equal to num of blocks * events per block
     sizes = size(orderMatrix);                  % get sizes
     totLength = round((sizes(1) * sizes(2))/3); % how many repetitions?
-    isiArray = repmat(isi,1,totLength);         % repeat matrix
+    isiArray = repmat(isi, 1, totLength);         % repeat matrix
     isiArray = shuffle(isiArray);               % randomize it
-    isiArray = horzcat(isiArray,0);             % add a zero to make calcs easier
+    isiArray = horzcat(isiArray,2);             % add a zero to make calcs easier
     isiMatrix = reshape(isiArray,[sizes(1), sizes(2)]);
+    
+    %% Create the position matrix (a.k.a. shift to the left or to the right)
+    % same concept as ISI, without the last 0
+    
+    tilt = [-1 0 1]; % left, center, right
+    tiltArray = repmat(tilt, 1, totLength);
+    randPos = shuffle(tilt);
+    tiltArray = horzcat(tiltArray,randPos(1)); % get a random position to complete the matrix
+    tiltArray = shuffle(tiltArray);
+    tiltMatrix = reshape(tiltArray, [sizes(1), sizes(2)]);
     
     %% Now we do the easy stuff
     cfg.design.blockNames = assignConditions(cfg);
@@ -201,6 +211,7 @@ function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     cfg.design.presMatrix = orderMatrix;
     cfg.design.targetMatrix = targetMatrix;
     cfg.design.isiMatrix = isiMatrix;
+    cfg.design.tiltMatrix = tiltMatrix;
 
     %% Plot
     diplayDesign(cfg, displayFigs);
