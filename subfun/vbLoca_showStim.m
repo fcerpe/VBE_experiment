@@ -33,6 +33,10 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
         % Draw the image to the screen, unless otherwise specified PTB will draw
         % the texture full size in the center of the screen
         Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
+        
+        % FIXATION
+        thisFixation.fixation.color = cfg.fixation.color;
+        drawFixation(thisFixation);
                 
         vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
 
@@ -42,6 +46,8 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
     end
 
     %% Erase last dots
+    
+    drawFixation(thisFixation);
 
     Screen('DrawingFinished', cfg.screen.win);
     

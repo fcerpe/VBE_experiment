@@ -136,10 +136,36 @@ function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     % matrix that holds the randomizations
     shuffledEv = zeros(NB_BLOCKS, 16); 
     
-    % Put into a single row, split in two, assign the corresponding stimuli
-    
     for ri = 1:NB_BLOCKS % fill the matrix with permutations of the order
-        shuffledEv(ri,:) = shuffle(1:16);    
+        
+        filled = 0;
+        while ~filled 
+            
+            temp_s = shuffle(1:16); % shuffle
+            check_s = ones(1,16); 
+            
+            % check that there is no B-F or F-B repetition
+            for ti = 2:length(temp_s)-1
+                if ti > 8 % braille stimulus
+                    if temp_s(ti-1) == temp_s(ti)-8 || temp_s(ti)-8 == temp_s(ti+1)
+                        % before and after there is not the same words in F
+                        check_s(ti) = 0;
+                    end
+                else % french stimulus
+                    if temp_s(ti-1) == temp_s(ti)+8 || temp_s(ti)+8 == temp_s(ti+1)
+                        % before and after there is not the same words in B
+                        check_s(ti) = 0;
+                    end
+                end
+            end
+            
+            if sum(check_s) == 16 
+                filled = 1;
+            end
+        end
+        
+        shuffledEv(ri,:) = temp_s;
+        
     end
        
     %% Create repetitions, nulls, targets

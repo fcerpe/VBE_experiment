@@ -52,7 +52,7 @@ function [cfg] = vbEvrel_setParameters()
 
     %% Timing
 
-    cfg.timing.eventDuration = 2 - (1/60)*11; % second
+    cfg.timing.eventDuration = 2 - (1/60)*15; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 0;

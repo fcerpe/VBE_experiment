@@ -90,8 +90,8 @@ function [cfg] = vbLoca_setParameters()
 
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';
-    cfg.fixation.color = cfg.color.white;
-    cfg.fixation.width = .25;
+    cfg.fixation.color = cfg.color.red;
+    cfg.fixation.width = .1;
     cfg.fixation.lineWidthPix = 3;
     cfg.fixation.xDisplacement = 0;
     cfg.fixation.yDisplacement = 0;
