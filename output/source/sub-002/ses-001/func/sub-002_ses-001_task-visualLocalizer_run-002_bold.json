@@ -1,0 +1,278 @@
+{
+    "Instructions": "",
+    "RepetitionTime": 1.75,
+    "SliceTiming": [],
+    "TaskDescription": "",
+    "TaskName": "visual Localizer",
+    "aperture": {
+        "type": "none"
+    },
+    "audio": {
+        "do": false
+    },
+    "bids": {
+        "MRI": {
+            "Instructions": "Détecte le stimulus répété",
+            "TaskDescription": []
+        },
+        "beh": {
+            "Instructions": [],
+            "TaskName": "visual Localizer"
+        },
+        "datasetDescription": {
+            "Acknowledgements": "",
+            "Authors": [""],
+            "BIDSVersion": "",
+            "DatasetDOI": "",
+            "Funding": [""],
+            "HowToAcknowledge": "",
+            "License": "",
+            "Name": "",
+            "ReferencesAndLinks": [""]
+        },
+        "eeg": {
+            "EEGReference": "",
+            "Instructions": "",
+            "PowerLineFrequency": 50,
+            "SamplingFrequency": [],
+            "SoftwareFilters": "n/a",
+            "TaskName": "visual Localizer"
+        },
+        "ieeg": {
+            "Instructions": "",
+            "PowerLineFrequency": 50,
+            "SamplingFrequency": [],
+            "SoftwareFilters": "n/a",
+            "TaskName": "visual Localizer",
+            "iEEGReference": ""
+        },
+        "meg": {
+            "DewarPosition": [],
+            "DigitizedHeadPoints": [],
+            "DigitizedLandmarks": [],
+            "Instructions": "",
+            "PowerLineFrequency": 50,
+            "SamplingFrequency": [],
+            "SoftwareFilters": "n/a",
+            "TaskName": "visual Localizer"
+        },
+        "mri": {
+            "Instructions": "",
+            "RepetitionTime": 1.75,
+            "SliceTiming": [],
+            "TaskDescription": "",
+            "TaskName": "visual Localizer"
+        }
+    },
+    "color": {
+        "background": [0,0,0],
+        "black": [0,0,0],
+        "grey": [127.5,127.5,127.5],
+        "red": [255,0,0],
+        "white": [255,255,255]
+    },
+    "debug": {
+        "do": false,
+        "showMouse": false,
+        "smallWin": false,
+        "transpWin": false
+    },
+    "design": {
+        "localizer": "VWFA",
+        "names": [
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld"
+        ],
+        "nbRepetitions": 6,
+        "nbEventsPerBlock": 10,
+        "blockNames": [
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld",
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld",
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld",
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld",
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld",
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld"
+        ],
+        "nbBlocks": 36,
+        "repetitionTargets": [[0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,1,0],[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0],[0,0,0,1,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0]],
+        "lengthBlock": [10,11,10,11,11,10,10,10,11,11,11,11,10,10,10,11,11,11,11,10,11,10,10,10,11,11,11,10,10,10,11,11,10,10,10,11],
+        "presMatrix": [[10,16,6,3,11,2,9,19,4,18,0],[12,7,11,11,8,1,3,10,16,6,17],[18,9,16,2,4,17,10,14,13,3,0],[8,20,12,18,13,13,19,7,16,10,15],[16,15,11,11,20,1,18,19,6,17,7],[10,20,17,13,4,11,19,6,14,1,0],[5,12,14,8,20,7,1,15,17,13,0],[18,5,15,14,4,13,20,2,19,9,0],[20,1,6,19,8,15,15,11,5,7,12],[4,2,14,17,1,11,11,9,3,5,6],[2,12,8,14,4,9,3,13,5,5,10],[3,9,9,16,18,8,5,2,15,7,12],[9,2,15,12,13,10,3,8,1,16,0],[20,8,11,17,5,1,16,9,10,12,0],[8,2,17,14,9,4,1,6,10,19,0],[1,17,14,14,8,7,15,16,20,11,13],[7,16,17,20,14,3,11,11,15,19,4],[17,1,4,13,13,15,14,5,7,6,20],[5,6,6,4,14,18,7,17,20,19,11],[6,19,14,15,3,4,7,13,18,2,0],[5,16,12,13,18,18,11,20,15,7,3],[19,12,10,4,2,3,5,18,9,6,0],[6,18,2,1,12,10,5,9,8,13,0],[19,12,2,10,9,3,11,18,8,16,0],[12,20,20,5,7,10,15,8,9,4,19],[13,15,19,6,2,2,8,4,9,11,10],[19,6,4,17,1,15,15,20,12,8,7],[15,16,1,3,9,7,17,5,14,20,0],[13,18,8,10,7,4,1,9,19,11,0],[10,6,3,5,17,16,20,18,2,14,0],[2,1,11,17,17,13,6,18,3,14,16],[1,14,7,17,18,18,20,3,12,5,16],[10,9,14,5,11,13,2,16,3,18,0],[8,19,6,4,10,12,13,18,2,11,0],[17,2,12,16,3,6,14,15,5,20,0],[9,19,15,8,7,1,4,4,12,11,13]],
+        "targetMatrix": [[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0]]
+    },
+    "dir": {
+        "output": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output",
+        "outputSubject": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\source\\sub-002\\ses-001"
+    },
+    "extraColumns": [
+        "image",
+        "target",
+        "event",
+        "block",
+        "keyName"
+    ],
+    "eyeTracker": {
+        "AverageCalibrationError": [],
+        "CalibrationDistance": "",
+        "CalibrationPosition": "",
+        "CalibrationType": "HV5",
+        "Manufacturer": "",
+        "ManufacturersModelName": "",
+        "MaximalCalibrationError": [],
+        "PupilPositionType": "",
+        "RawDataFilters": [],
+        "RawSamples": [],
+        "SamplingFrequency": [],
+        "SoftwareVersions": "",
+        "do": false
+    },
+    "fileName": {
+        "base": "sub-002_ses-001_task-visualLocalizer",
+        "datasetDescription": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\dataset_description.json",
+        "date": "202112061749",
+        "dateFormat": "yyyymmddHHMM",
+        "events": "sub-002_ses-001_task-visualLocalizer_run-002_events.tsv",
+        "modality": "func",
+        "pattern": "%03.0f",
+        "stim": "sub-002_ses-001_task-visualLocalizer_run-002_stim.tsv",
+        "suffix": {
+            "contrastEnhancement": "",
+            "echo": "",
+            "phaseEncodingDirection": "",
+            "reconstruction": "",
+            "recording": "",
+            "run": "_run-002"
+        },
+        "task": "visualLocalizer",
+        "zeroPadding": 3
+    },
+    "fixation": {
+        "color": [255,255,255],
+        "lineWidthPix": 3,
+        "type": "cross",
+        "width": 0.25,
+        "xDisplacement": 0,
+        "yDisplacement": 0,
+        "widthPix": 40.02210479691175,
+        "xDisplacementPix": 0,
+        "yDisplacementPix": 0,
+        "xCoords": [-20.01105239845588,20.01105239845588,0,0],
+        "yCoords": [0,0,-20.01105239845588,20.01105239845588],
+        "allCoords": [[-20.01105239845588,20.01105239845588,0,0],[0,0,-20.01105239845588,20.01105239845588]]
+    },
+    "keyboard": {
+        "escapeKey": "ESCAPE",
+        "keyboard": [],
+        "responseBox": [],
+        "responseKey": [
+            "c",
+            "b",
+            "t"
+        ]
+    },
+    "mri": {
+        "triggerKey": "s",
+        "triggerNb": 1,
+        "repetitionTime": 1.75
+    },
+    "pacedByTriggers": {
+        "do": false
+    },
+    "screen": {
+        "monitorDistance": 95,
+        "monitorWidth": 25,
+        "resolution": [[],[],[]],
+        "idx": 2,
+        "win": 10,
+        "winRect": [0,0,2400,1500],
+        "winWidth": 2400,
+        "winHeight": 1500,
+        "center": [1200,750],
+        "FOV": 14.99171527945972,
+        "ppd": 160.088419187647,
+        "ifi": 0.01667928400012897,
+        "monitorRefresh": 59.95461196009778
+    },
+    "skipSyncTests": 1,
+    "software": {
+        "os": "PCWIN64",
+        "name": "Psychtoolbox",
+        "RRID": "SCR_002881",
+        "version": "3.0.17",
+        "runsOn": "Matlab - 9.10.0.1602886 (R2021a)"
+    },
+    "subject": {
+        "askGrpSess": [true,true],
+        "runNb": 2,
+        "sessionNb": 1,
+        "subjectGrp": "",
+        "subjectNb": 2
+    },
+    "suffix": {
+        "acquisition": "0p75mmEvTr2p18",
+        "contrastEnhancement": [],
+        "echo": [],
+        "phaseEncodingDirection": [],
+        "reconstruction": [],
+        "recording": []
+    },
+    "target": {
+        "maxNbPerBlock": 1,
+        "duration": 0.1,
+        "type": "repetition"
+    },
+    "task": {
+        "name": "visual localizer",
+        "instruction": "Détecte le stimulus répété"
+    },
+    "testingDevice": "mri",
+    "text": {
+        "color": [255,255,255],
+        "font": "Courier New",
+        "size": 25,
+        "style": 1
+    },
+    "timing": {
+        "eventDuration": 0.8833333333333333,
+        "IBI": 6,
+        "ISI": 0.01,
+        "onsetDelay": 0,
+        "endDelay": 3.6
+    },
+    "useGUI": false,
+    "verbose": 1,
+    "experimentStart": 112981.1489803
+}

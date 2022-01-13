@@ -44,7 +44,6 @@ function [cfg] = vbEvrel_setParameters()
 
     cfg.design.localizer = 'VWFA';
     
-    % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'rep1','rep2','rep3','rep4'};
 
     cfg.design.nbRepetitions = 1;
