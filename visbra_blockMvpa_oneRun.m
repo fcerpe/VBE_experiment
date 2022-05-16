@@ -65,6 +65,11 @@ try
     
     fprintf('\n Running Run %.0f %s\n', string(cfg.subject.runNb));
     
+<<<<<<< HEAD:visbra_blockMvpa_oneRun.m
+=======
+    iRun = cfg.subject.runNb;
+    
+>>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888:visbra_evrel.m
     % we run all the experiment in a single script, there will be a 'space'
     % to press to start the following run
     
@@ -83,6 +88,16 @@ try
         % Let me know what's happening
         fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
         
+<<<<<<< HEAD:visbra_blockMvpa_oneRun.m
+=======
+        % Get which condition are we calling, a.k.a from which
+        % struct to pick the images
+        currentCondition = cfg.design.blockMatrix(iBlock,iRun);
+        
+        % Let me know what's happening
+        fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
+        
+>>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888:visbra_evrel.m
         % For each event in the block. Refer to blockLengths, each
         % COLUMN represents a run, each cell represents a block within
         % that run

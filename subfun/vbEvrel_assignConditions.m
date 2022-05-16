@@ -1,7 +1,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
 function [conditionNamesVector, CON1_INDEX, CON2_INDEX, CON3_INDEX, CON4_INDEX, ...
-          CON5_INDEX, CON6_INDEX, CON7_INDEX, CON8_INDEX] = assignConditions(cfg)
+          CON5_INDEX, CON6_INDEX, CON7_INDEX, CON8_INDEX] = vbEvrel_assignConditions(cfg)
 
     [~, nbRepet] = getDesignInput(cfg);
 

@@ -62,6 +62,7 @@ function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     whichCond = "";
     % switch numbers for condition names in the condition order.
     % it's annoying
+<<<<<<< HEAD
     for r = 1:size(conditionsOrder,1)
         for b = 1:size(conditionsOrder,2)
             whichCond(r,b) = cfg.design.names{conditionsOrder(r,b)'};
@@ -85,6 +86,38 @@ function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     % extra isi)
     isiMatrix = zeros(12,4,12);
 
+=======
+    switch cfg.subject.firstCond
+        case 1
+            currentConditionOrder = frfirst_conditionsOrder;
+        case 2
+            currentConditionOrder = brfirst_conditionsOrder;
+    end
+    
+    for r = 1:size(currentConditionOrder,1)
+        for b = 1:size(currentConditionOrder,2)
+            whichCond(r,b) = cfg.design.names{currentConditionOrder(r,b)'};
+        end
+    end
+
+    whichCond = whichCond';
+       
+    %% Create ISI matrix with variations
+    isi = [0.8 1 1.2];
+    
+    totIsi = numStimPerBlock-1;     % how many ISI we have per block?
+    numIsiPerBlock = [sum(totIsi(1:12))     sum(totIsi(13:24))   sum(totIsi(25:36)) ...
+                      sum(totIsi(37:48))    sum(totIsi(49:60))   sum(totIsi(61:72)) ...
+                      sum(totIsi(73:84))    sum(totIsi(85:96))   sum(totIsi(97:108)) ...
+                      sum(totIsi(109:120))  sum(totIsi(121:132)) sum(totIsi(133:144))];  
+    % re-arrange for readability
+    totIsi = reshape(totIsi,12,12);
+    
+    % matrix with all the isi (and 0 in case there is no target and no
+    % extra isi)
+    isiMatrix = zeros(12,4,12);
+
+>>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888
     for nI = 1:length(numIsiPerBlock)  
             isiArray = repmat(isi, 1, numIsiPerBlock(nI)/3);  % repeat matrix
             isiArray = shuffle(isiArray);                   % randomize it
@@ -97,7 +130,7 @@ function [cfg] = vbEvrel_expDesign(cfg, displayFigs)
     end    
 
     %% Now we do the easy stuff
-    cfg.design.blockNames = assignConditions(cfg);
+    cfg.design.blockNames = vbEvrel_assignConditions(cfg);
     cfg.design.nbBlocks = NB_BLOCKS;
     cfg.design.nbRuns = 12;
     

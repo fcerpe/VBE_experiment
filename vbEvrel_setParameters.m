@@ -17,7 +17,7 @@ function [cfg] = vbEvrel_setParameters()
     cfg.debug.do = false; % To test the script out of the scanner, skip PTB sync
     cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
     cfg.debug.transpWin = false; % To test with trasparent full size screen
-    cfg.debug.showMouse = true;
+    cfg.debug.showMouse = false;
 
     cfg.skipSyncTests = 1;
 
@@ -53,7 +53,11 @@ function [cfg] = vbEvrel_setParameters()
 
     %% Timing
 
+<<<<<<< HEAD
     cfg.timing.eventDuration = 3.5 - (1/60) * 25; % second
+=======
+    cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
+>>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
