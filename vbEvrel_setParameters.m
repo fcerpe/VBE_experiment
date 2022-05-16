@@ -44,19 +44,21 @@ function [cfg] = vbEvrel_setParameters()
 
     cfg.design.localizer = 'VWFA';
     
-    cfg.design.names = {'rep1','rep2','rep3','rep4'};
+    % french (f) and braille (b): real word (rw), pseudo-word (pw),
+    % non-word (nw), fake-script (fs)
+    cfg.design.names = {'frw','fpw','fnw','ffs','brw','bpw','bnw','bfs'};
 
-    cfg.design.nbRepetitions = 1;
-    cfg.design.nbEventsPerBlock = 16; 
+    cfg.design.nbRepetitions = 3;
+    cfg.design.nbEventsPerBlock = 4; 
 
     %% Timing
 
-    cfg.timing.eventDuration = 2 - (1/60)*15; % second
+    cfg.timing.eventDuration = 3.5 - (1/60) * 25; % second
 
     % Time between blocs in secs
-    cfg.timing.IBI = 0;
+    cfg.timing.IBI = 6;
     % Time between events in secs
-    cfg.timing.ISI = [2 2.5 3];
+    cfg.timing.ISI = [0.8 1 1.2];
     % Number of seconds before the motion stimuli are presented
     cfg.timing.onsetDelay = 0;
     % Number of seconds after the end all the stimuli before ending the run
@@ -64,22 +66,22 @@ function [cfg] = vbEvrel_setParameters()
 
 
     %% Task(s)
-    cfg.task.name = 'visual event related';
+    cfg.task.name = 'words decoding';
 
     % Instruction
     cfg.task.instruction = 'Détecte le stimulus répété';
 
     % Fixation cross (in pixels)
     cfg.fixation.type = 'cross';
-    cfg.fixation.color = cfg.color.white;
-    cfg.fixation.width = .1;
+    cfg.fixation.color = cfg.color.red;
+    cfg.fixation.width = .2;
     cfg.fixation.lineWidthPix = 3;
     cfg.fixation.xDisplacement = 0;
     cfg.fixation.yDisplacement = 0;
 
     
     % target (referring to the words)
-    cfg.target.maxNbPerBlock = 2; % 10% of 80 is 8, splitted into 5 blocks
+    cfg.target.maxNbPerBlock = 1; % 0 or 1, otherwise too crowded
     cfg.target.duration = 0.1; % In secs
     cfg.target.type = 'repetition';
     

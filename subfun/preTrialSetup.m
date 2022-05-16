@@ -5,20 +5,18 @@ function varargout = preTrialSetup(varargin)
 
     % generic function to prepare some structure before each trial
 
-    [cfg, iBlock, iEvent] = deal(varargin{:});
+    [cfg, iBlock, iEvent, iRun] = deal(varargin{:});
 
-    % trial_type is defined by the currentImgIndex: 
+    % trial_type is defined by the currentCondition: 
     % 1-8 = french, 9-16 = braille, 17 = blank
-    switch cfg.design.presMatrix(iBlock,iEvent)
-        case {1,2,3,4,5,6,7,8} 
+    switch cfg.design.blockMatrix(iRun,iBlock)
+        case {'frw','fpw','fnw','ffs'} 
             thisEvent.trial_type = 'french';
-        case {9,10,11,12,13,14,15,16} 
+        case {'brw','bpw','bnw','bfs'} 
             thisEvent.trial_type = 'braille';
-        case 0
-            thisEvent.trial_type = 'blank';
     end
 %     thisEvent.trial_type = cfg.design.blockNames{iBlock};
-    thisEvent.target = cfg.design.targetMatrix(iBlock, iEvent);
+    thisEvent.target = cfg.design.targetMatrix(iBlock, iEvent, iRun);
 
     % If this frame shows a target we change the color of the cross
     thisFixation.fixation = cfg.fixation;
