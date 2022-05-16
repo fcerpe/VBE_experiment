@@ -1,19 +1,9 @@
-<<<<<<< HEAD
 function [answer] = waitForKb(targetKey)
-
 % Waits for a specific Keyboard press
-deviceNumber=-3;
-
-=======
-function [answer] = waitForKb(targetKey, deviceNumber)
-
-% Waits for a specific Keyboard press
-
 
 if isempty(deviceNumber)
     deviceNumber=-3;
 end
->>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888
     
 % Wait until all keys are released
 while KbCheck

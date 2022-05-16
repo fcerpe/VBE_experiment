@@ -19,8 +19,8 @@ end
 visbra_initEnv();
 
 % set and load all the parameters to run the experiment
-cfg = vbEvrel_setParameters;
-cfg = visbra_userInputs(cfg);
+cfg = vbBlock_setParameters;
+cfg = vbBlock_userInputs(cfg);
 
 cfg = createFilename(cfg);
 
@@ -37,7 +37,7 @@ try
     cfg = visbra_initPTB(cfg);
     
     % creates design of experiment: re-made suited on me
-    cfg = vbEvrel_expDesign(cfg);
+    cfg = vbBlock_expDesign(cfg);
     
     % Prepare for the output logfiles with all
     logFile.extraColumns = cfg.extraColumns;
@@ -65,11 +65,8 @@ try
     
     fprintf('\n Running Run %.0f %s\n', string(cfg.subject.runNb));
     
-<<<<<<< HEAD:visbra_blockMvpa_oneRun.m
-=======
     iRun = cfg.subject.runNb;
     
->>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888:visbra_evrel.m
     % we run all the experiment in a single script, there will be a 'space'
     % to press to start the following run
     
@@ -83,21 +80,11 @@ try
         
         % Get which condition are we calling, a.k.a from which
         % struct to pick the images
-        currentCondition = cfg.design.blockMatrix(iBlock,iRun);
+        currentCondition = cfg.design.blockMatrix(iBlock, iRun);
         
         % Let me know what's happening
         fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
         
-<<<<<<< HEAD:visbra_blockMvpa_oneRun.m
-=======
-        % Get which condition are we calling, a.k.a from which
-        % struct to pick the images
-        currentCondition = cfg.design.blockMatrix(iBlock,iRun);
-        
-        % Let me know what's happening
-        fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
-        
->>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888:visbra_evrel.m
         % For each event in the block. Refer to blockLengths, each
         % COLUMN represents a run, each cell represents a block within
         % that run
@@ -118,7 +105,7 @@ try
             
             % WORD EVENT
             % show the word and collect onset and duraton of the event
-            [onset, duration] = vbEvrel_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
+            [onset, duration] = vbBlock_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
             
             % Save image ID
             switch currentCondition

@@ -1,6 +1,6 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
-function [cfg] = vbEvrel_setParameters()
+function [cfg] = vbBlock_setParameters()
 
     % VISUAL LOCALIZER
 
@@ -36,8 +36,6 @@ function [cfg] = vbEvrel_setParameters()
 
     % MRI settings
     cfg = setMRI(cfg);
-    cfg.suffix.acquisition = '0p75mmEvTr2p18'; % Is it changeable? 
-                                               % Does it mean something?
     cfg.pacedByTriggers.do = false;
 
     %% Experiment Design
@@ -53,11 +51,9 @@ function [cfg] = vbEvrel_setParameters()
 
     %% Timing
 
-<<<<<<< HEAD
-    cfg.timing.eventDuration = 3.5 - (1/60) * 25; % second
-=======
+    % CHANGE MANUALLY, REMOVING FRAMES IF NEEDED
+    % SCANNER MONITOR IS NOT ACCURATE
     cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
->>>>>>> a1954660d693fc8cf72133b965c4786e71cfa888
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
@@ -66,7 +62,7 @@ function [cfg] = vbEvrel_setParameters()
     % Number of seconds before the motion stimuli are presented
     cfg.timing.onsetDelay = 0;
     % Number of seconds after the end all the stimuli before ending the run
-    cfg.timing.endDelay = 3.6;
+    cfg.timing.endDelay = 3;
 
 
     %% Task(s)
