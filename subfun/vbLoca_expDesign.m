@@ -1,6 +1,6 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
-function [cfg] = expDesign(cfg, displayFigs)
+function [cfg] = vbLoca_expDesign(cfg, displayFigs)
     % TO MODIFY: no more static / motion. Just static and show some images
     % 
     % Creates the sequence of blocks and the events in them

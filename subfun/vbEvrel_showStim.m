@@ -31,7 +31,7 @@ function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, i
         Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
                 
         % FIXATION
-        thisFixation.fixation.color = cfg.fixation.color;
+        thisFixation.fixation.color = cfg.color.red;
         drawFixation(thisFixation);
 
         Screen('DrawingFinished', cfg.screen.win);
