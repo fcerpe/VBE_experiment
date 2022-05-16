@@ -1,6 +1,6 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 
-function [cfg] = expDesign(cfg, displayFigs)
+function [cfg] = vbLoca_expDesign(cfg, displayFigs)
     % TO MODIFY: no more static / motion. Just static and show some images
     % 
     % Creates the sequence of blocks and the events in them
@@ -45,7 +45,7 @@ function [cfg] = expDesign(cfg, displayFigs)
     end
 
     [NB_BLOCKS, NB_REPETITIONS, NB_EVENTS_PER_BLOCK, MAX_TARGET_PER_BLOCK] = getDesignInput(cfg);
-    [~, C1_INDEX, C2_INDEX, C3_INDEX, C4_INDEX, C5_INDEX, C6_INDEX] = assignConditions(cfg);
+    [~, C1_INDEX, C2_INDEX, C3_INDEX, C4_INDEX, C5_INDEX, C6_INDEX] = vbLoca_assignConditions(cfg);
 
 %     if mod(NB_REPETITIONS, MAX_TARGET_PER_BLOCK) ~= 0
 %         error('number of repetitions must be a multiple of max number of targets');
@@ -110,14 +110,14 @@ function [cfg] = expDesign(cfg, displayFigs)
     shuffledEv = zeros(NB_BLOCKS,10);
     
     orep = 1;
-    for row = 1:NB_REPETITIONS 
+    for row = 1:NB_REPETITIONS /2
 
         iniInd = 6*(row-1)+1;
         if mod(row,2) ~= 0 % if odd number, 1 3 5 
             shuffledEv(iniInd:iniInd+5,:) = randMatrix(orep:orep+5, 1:10);
         else
             shuffledEv(iniInd:iniInd+5,:) = randMatrix(orep:orep+5, 11:20);
-            orep = orep+6; % increase counter after 2 reps
+            orep = orep+3; % increase counter after 2 reps
         end
     end
     
@@ -152,7 +152,7 @@ function [cfg] = expDesign(cfg, displayFigs)
     end
     
     %% Now we do the easy stuff
-    cfg.design.blockNames = assignConditions(cfg);
+    cfg.design.blockNames = vbLoca_assignConditions(cfg);
     cfg.design.nbBlocks = NB_BLOCKS;
     cfg.design.repetitionTargets = repetitionTargets;
     
