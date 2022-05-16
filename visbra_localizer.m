@@ -21,7 +21,7 @@ visbra_initEnv();
 
 % set and load all the parameters to run the experiment
 cfg = vbLoca_setParameters;
-cfg = visbra_userInputs(cfg);
+cfg = userInputs(cfg);
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
@@ -43,9 +43,6 @@ try
     logFile.extraColumns = cfg.extraColumns;
     logFile = saveEventsFile('init', cfg, logFile);
     logFile = saveEventsFile('open', cfg, logFile);
-
-    % Show experiment instruction
-    standByScreen(cfg);
 
     % prepare the KbQueue to collect responses
     getResponse('init', cfg.keyboard.responseBox, cfg);

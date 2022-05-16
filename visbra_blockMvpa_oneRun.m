@@ -93,7 +93,7 @@ try
             % Check for experiment abortion from operator
             checkAbort(cfg, cfg.keyboard.keyboard);
             
-            [thisEvent, thisFixation, cfg] = preTrialSetup(cfg, iBlock, iEvent, iRun);
+            [thisEvent, thisFixation, cfg] = vbBlock_preTrialSetup(cfg, iBlock, iEvent, iRun);
             
             % Get the path of the specific .png image
             currentImgIndex = cfg.design.presentationMatrix(iBlock,iEvent,iRun);
@@ -118,7 +118,7 @@ try
             end
            
             % Save word event
-            thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
+            thisEvent = vbBlock_preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
                 duration, onset, cfg, imgToSave,cfg.design.isiMatrix(iBlock,iEvent), logFile);
             
             saveEventsFile('save', cfg, thisEvent);

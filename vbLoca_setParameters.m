@@ -36,8 +36,6 @@ function [cfg] = vbLoca_setParameters()
 
     % MRI settings
     cfg = setMRI(cfg);
-    cfg.suffix.acquisition = '0p75mmEvTr2p18'; % Is it changeable? 
-                                               % Does it mean something?
     cfg.pacedByTriggers.do = false;
 
     %% Experiment Design
@@ -47,7 +45,7 @@ function [cfg] = vbLoca_setParameters()
     % (F)rench (W)ords, (B)raille (W)ords, (L)ine (D)rawings, and (S)crambled conditions
     cfg.design.names = {'fw'; 'sfw'; 'bw'; 'sbw'; 'ld'; 'sld'};
 
-    cfg.design.nbRepetitions = 6;
+    cfg.design.nbRepetitions = 12;
     cfg.design.nbEventsPerBlock = 10; 
 
     %% Timing

@@ -99,7 +99,7 @@ function [cfg] = vbLoca_expDesign(cfg, displayFigs)
     % then split into two groups,
     % then create a nice matrix from which we can pick our stimuli
     % matrix that holds the randomizations
-    randMatrix = zeros(NB_BLOCKS/2, 20); 
+    randMatrix = zeros(NB_BLOCKS, 20); 
     
     for ri = 1:size(randMatrix,1) % fill the matrix with permutations of the order
         randMatrix(ri,:) = shuffle(1:20);    
@@ -110,7 +110,7 @@ function [cfg] = vbLoca_expDesign(cfg, displayFigs)
     shuffledEv = zeros(NB_BLOCKS,10);
     
     orep = 1;
-    for row = 1:NB_REPETITIONS /2
+    for row = 1:NB_REPETITIONS
 
         iniInd = 6*(row-1)+1;
         if mod(row,2) ~= 0 % if odd number, 1 3 5 
