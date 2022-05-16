@@ -14,7 +14,6 @@ function varargout = preTrialSetup(varargin)
             thisEvent.trial_type = 'french';
         case {'brw','bpw','bnw','bfs'} 
             thisEvent.trial_type = 'braille';
-
     end
     
     if cfg.design.targetMatrix(iBlock,iEvent,iRun)

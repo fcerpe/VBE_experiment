@@ -80,7 +80,7 @@ try
         
         % Get which condition are we calling, a.k.a from which
         % struct to pick the images
-        currentCondition = cfg.design.blockMatrix(iBlock, iRun);
+        currentCondition = cfg.design.blockMatrix(iRun, iBlock);
         
         % Let me know what's happening
         fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
@@ -88,7 +88,7 @@ try
         % For each event in the block. Refer to blockLengths, each
         % COLUMN represents a run, each cell represents a block within
         % that run
-        for iEvent = 1:cfg.design.blockLengths(iBlock,iRun)
+        for iEvent = 1:cfg.design.blockLengths(iRun, iBlock)
             
             % Check for experiment abortion from operator
             checkAbort(cfg, cfg.keyboard.keyboard);
@@ -119,7 +119,7 @@ try
            
             % Save word event
             thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
-                duration, onset, cfg, imgToSave, logFile);
+                duration, onset, cfg, imgToSave,cfg.design.isiMatrix(iBlock,iEvent), logFile);
             
             saveEventsFile('save', cfg, thisEvent);
             
