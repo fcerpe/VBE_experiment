@@ -15,8 +15,8 @@ function [cfg] = vbBlock_setParameters()
     %% Debug mode settings
 
     cfg.debug.do = false; % To test the script out of the scanner, skip PTB sync
-    cfg.debug.smallWin = true; % To test on a part of the screen, change to 1
-    cfg.debug.transpWin = true; % To test with trasparent full size screen
+    cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
+    cfg.debug.transpWin = false; % To test with trasparent full size screen
     cfg.debug.showMouse = false;
 
     cfg.skipSyncTests = 1;

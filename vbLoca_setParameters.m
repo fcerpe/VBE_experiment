@@ -50,7 +50,7 @@ function [cfg] = vbLoca_setParameters()
 
     %% Timing
 
-    cfg.timing.eventDuration = 1 - (1/60)*7; % second
+    cfg.timing.eventDuration = 1 - (1/60)*6; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
