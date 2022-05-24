@@ -53,7 +53,14 @@ function [cfg] = vbBlock_setParameters()
 
     % CHANGE MANUALLY, REMOVING FRAMES IF NEEDED
     % SCANNER MONITOR IS NOT ACCURATE
-    cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
+    % mac is worse than windows
+    % different lines of code
+
+    % win
+%     cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
+
+    % mac - half. Is it weird?
+%     cfg.timing.eventDuration = 1.75;
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
