@@ -9,12 +9,7 @@ function varargout = vbBlock_preTrialSetup(varargin)
 
     % trial_type is defined by the currentCondition: 
     % 1-8 = french, 9-16 = braille, 17 = blank
-    switch cfg.design.blockMatrix(iRun, iBlock)
-        case {'frw','fpw','fnw','ffs'} 
-            thisEvent.trial_type = 'french';
-        case {'brw','bpw','bnw','bfs'} 
-            thisEvent.trial_type = 'braille';
-    end
+    thisEvent.trial_type = char(cfg.design.blockMatrix(iRun, iBlock));
     
     if cfg.design.targetMatrix(iBlock,iEvent,iRun)
         thisEvent.trial_type = 'target';
