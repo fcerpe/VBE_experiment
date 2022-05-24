@@ -75,8 +75,6 @@ try
     for iBlock = 1:cfg.design.nbBlocks
         
         previousEvent.target = 0;
-
-        iRun = cfg.subject.runNb;
         
         % Get which condition are we calling, a.k.a from which
         % struct to pick the images
@@ -116,10 +114,12 @@ try
                 case {'fnw','bnw','ffs','bfs'}
                     imgToSave = char(stimuli.french.nw(currentImgIndex));
             end
+
+            isi = cfg.design.isiMatrix(iBlock,iEvent,iRun);
            
             % Save word event
             thisEvent = vbBlock_preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
-                duration, onset, cfg, imgToSave,cfg.design.isiMatrix(iBlock,iEvent), logFile);
+                duration, onset, cfg, imgToSave, isi, logFile);
             
             saveEventsFile('save', cfg, thisEvent);
             
@@ -130,10 +130,12 @@ try
             saveResponsesAndTriggers(responseEvents, cfg, logFile, triggerString);
             
             previousEvent = thisEvent;
-            
+
+            % ISI
+            %
             % wait accordingly to the randomized variable delay
             % plus, draw fixation (inside the waitFor function)
-            waitFor(cfg, cfg.design.isiMatrix(iBlock,iEvent));
+            waitFor(cfg, cfg.design.isiMatrix(iBlock,iEvent,iRun));
             
         end
         
