@@ -60,7 +60,7 @@ function [cfg] = vbBlock_setParameters()
 %     cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
 
     % mac - half. Is it weird?
-    cfg.timing.eventDuration = 1.75;
+    cfg.timing.eventDuration = 3.06;
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;

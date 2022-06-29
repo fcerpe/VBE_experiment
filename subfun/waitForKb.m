@@ -1,4 +1,4 @@
-function [answer] = waitForKb(targetKey)
+function [answer] = waitForKb(targetKey, deviceNumber)
 % Waits for a specific Keyboard press
 
 if isempty(deviceNumber)
