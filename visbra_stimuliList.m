@@ -5,7 +5,7 @@
 % - for novices to control
 
 % get the stimuli
-load('inputs/blockMvpa_stimuli.mat');
+load('inputs/prescan_imgs.mat');
 
 getOnlyPress = 1;
 
@@ -20,10 +20,13 @@ visbra_initEnv();
 
 % set and load all the parameters to run the experiment
 cfg = vbBlock_setParameters;
-cfg = vbBlock_userInputs(cfg);
 
+questions.mustBePositiveInteger = 'Please enter a positive integer: ';
+questions.startCondition = 'Enter the starting condition (FR = 1, BR = 2): ';
+questions.questionsToAsk = {'Enter the starting condition (FR = 1, BR = 2): ', 1};
 
-t = stimuli.box;
+responses = askUserCli(questions, responses);
+cfg.subject.firstCond = responses{1, 1};
 
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
@@ -38,13 +41,13 @@ try
     if cfg.subject.firstCond == 1
         firstCharCondition = "french";
         secondCharCondition = "braille";
-        firstImage = images.frw.w1;
-        secondImage = images.brw.w1;
+        firstImage = prescanner_french;
+        secondImage = prescanner_braille;
     else
         firstCharCondition = "braille";
         secondCharCondition = "french";
-        firstImage =images.brw.w1; 
-        secondImage = images.frw.w1;
+        firstImage = prescanner_braille; 
+        secondImage = prescanner_french;
     end
 
     %% first list for 2 minutes
