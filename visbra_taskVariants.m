@@ -7,6 +7,8 @@
 % Rearranged and modified by Filippo Cerpelloni
 % Last update 02/05/2022
 
+warning('off');
+
 getOnlyPress = 1;
 
 % Clear all the previous stuff
@@ -78,7 +80,7 @@ try
     % to press to start the following run
     runsToPerform = [1 3 5];
     taskOrder = npermutek_noRep([1 2 3],3);
-    thisTaskOrder = taskOrder(mod(cfg.subject.subjectNb,5)+1,:);
+    thisTaskOrder = taskOrder(mod(cfg.subject.subjectNb,6)+1,:);
     tasks = ["nodim","onedim","twodim"];
 
     for rtp = 1:length(runsToPerform)
