@@ -5,7 +5,9 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 29/06/2022
+% Last update 02/05/2022
+
+warning('off');
 
 getOnlyPress = 1;
 
@@ -22,6 +24,9 @@ visbra_initEnv();
 cfg = vbBlock_setParameters;
 cfg = vbBlock_userInputs(cfg);
 cfg.subject.firstCond = 2;
+
+% if running mac on battery, 1.7s correspond to 3.5s of ptb presentation
+cfg.timing.eventDuration = 1.7; 
 
 cfg = createFilename(cfg);
 
@@ -77,8 +82,8 @@ try
     % we run all the experiment in a single script, there will be a 'space'
     % to press to start the following run
     runsToPerform = [1 3 5];
-    taskOrder = [1 2 3; 1 3 2; 2 1 3; 2 3 1; 3 1 2; 3 2 1];
-    thisTaskOrder = taskOrder(mod(cfg.subject.subjectNb,5)+1,:);
+    taskOrder = npermutek_noRep([1 2 3],3);
+    thisTaskOrder = taskOrder(mod(cfg.subject.subjectNb,6)+1,:);
     tasks = ["nodim","onedim","twodim"];
 
     for rtp = 1:length(runsToPerform)
@@ -96,10 +101,9 @@ try
                 tiltMat = twodimShifts;
         end
 
-
         % By blocks we actually mean chunks / repetitions of stimuli.
         % there's no IBI in fact, but it keeps things in order
-        for iBlock = 1:cfg.design.nbBlocks
+        for iBlock = 1:cfg.design.nbBlocks/2
             
             previousEvent.target = 0;
             
@@ -129,6 +133,11 @@ try
                 % IMPORTANT: with the indented targets, choose the folder beforehand
                 eval(['thisImage = ' char(matFile) '.' char(thisTilt) '.' char(currentCondition) '.w' char(string(currentImgIndex)) ';']);
                 
+                % Vinckier variant: if event is target, sting of hashtags
+                if thisEvent.target == 1
+                    eval(['thisImage = ' char(matFile) '.' char(thisTilt) '.bta.w0;']);
+                end
+
                 % WORD EVENT
                 % show the word and collect onset and duraton of the event
                 [onset, duration] = vbBlock_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
@@ -141,6 +150,10 @@ try
                         imgToSave = char(stimuli.french.pw(currentImgIndex));
                     case {'fnw','bnw','ffs','bfs'}
                         imgToSave = char(stimuli.french.nw(currentImgIndex));
+                end
+
+                if thisEvent.target == 1
+                    imgToSave = char('targetImg');
                 end
     
                 isi = cfg.design.isiMatrix(iBlock,iEvent,iRun);
@@ -191,6 +204,9 @@ try
     waitFor(cfg, cfg.timing.endDelay);
 
     % Block is over, wait for key press (SPACE) to continue
+    DrawFormattedText(cfg.screen.win, 'Appuyez sur "espace" pour continuer', 'center', 'center');
+    Screen('Flip', cfg.screen.win);
+    
     waitForKb('space', [])
 
     end

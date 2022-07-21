@@ -5,7 +5,37 @@ function [conditionNamesVector, CON1_INDEX, CON2_INDEX, CON3_INDEX, CON4_INDEX, 
 
 [~, nbRepet] = getDesignInput(cfg);
 
-conditionNamesVector = repmat(cfg.design.names, nbRepet, 1);
+% regular
+% conditionNamesVector = repmat(cfg.design.names, nbRepet, 1);
+
+% Hans scrambling variant
+% First three (1-2-3) are repeated in the opposite manner (3-2-1) at the
+% end. Rest is shuffled
+% SHUFFLE - GET ORDER OF THE FIRST REP - SHUFFLE INDIVIDUALLY ALL THE REPS
+% - PUT TOGETHER
+firstRepetition = shuffle(cfg.design.names);
+conditionNamesVector = firstRepetition;
+for rep = 2:nbRepet-1
+    condIsRepeated = true;
+    while condIsRepeated 
+        thisShuffledRepetition = shuffle(cfg.design.names);
+        if not(strcmp(thisShuffledRepetition{1}, conditionNamesVector{end}))
+            conditionNamesVector = vertcat(conditionNamesVector,thisShuffledRepetition);
+            condIsRepeated = false;
+        end
+    end
+end
+
+if strcmp(firstRepetition{end}, conditionNamesVector{end})
+    conditionNamesVector = vertcat(conditionNamesVector, ...
+                                    firstRepetition{5}, firstRepetition{6}, firstRepetition{4}, ...
+                                    firstRepetition{3}, firstRepetition{2}, firstRepetition{1});
+else
+    conditionNamesVector = vertcat(conditionNamesVector, ...
+                                    firstRepetition{6}, firstRepetition{5}, firstRepetition{4}, ...
+                                    firstRepetition{3}, firstRepetition{2}, firstRepetition{1});
+end
+
 
 % Get the index of each condition
 nameCondition1 = 'fw';
