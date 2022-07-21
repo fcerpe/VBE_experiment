@@ -25,6 +25,9 @@ cfg = vbBlock_setParameters;
 cfg = vbBlock_userInputs(cfg);
 cfg.subject.firstCond = 2;
 
+% if running mac on battery, 1.7s correspond to 3.5s of ptb presentation
+cfg.timing.eventDuration = 1.7; 
+
 cfg = createFilename(cfg);
 
 % load the stimuli from inputs
@@ -98,10 +101,9 @@ try
                 tiltMat = twodimShifts;
         end
 
-
         % By blocks we actually mean chunks / repetitions of stimuli.
         % there's no IBI in fact, but it keeps things in order
-        for iBlock = 1:cfg.design.nbBlocks
+        for iBlock = 1:cfg.design.nbBlocks/2
             
             previousEvent.target = 0;
             
@@ -131,6 +133,11 @@ try
                 % IMPORTANT: with the indented targets, choose the folder beforehand
                 eval(['thisImage = ' char(matFile) '.' char(thisTilt) '.' char(currentCondition) '.w' char(string(currentImgIndex)) ';']);
                 
+                % Vinckier variant: if event is target, sting of hashtags
+                if thisEvent.target == 1
+                    eval(['thisImage = ' char(matFile) '.' char(thisTilt) '.bta.w0;']);
+                end
+
                 % WORD EVENT
                 % show the word and collect onset and duraton of the event
                 [onset, duration] = vbBlock_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
@@ -143,6 +150,10 @@ try
                         imgToSave = char(stimuli.french.pw(currentImgIndex));
                     case {'fnw','bnw','ffs','bfs'}
                         imgToSave = char(stimuli.french.nw(currentImgIndex));
+                end
+
+                if thisEvent.target == 1
+                    imgToSave = char('targetImg');
                 end
     
                 isi = cfg.design.isiMatrix(iBlock,iEvent,iRun);
@@ -193,6 +204,9 @@ try
     waitFor(cfg, cfg.timing.endDelay);
 
     % Block is over, wait for key press (SPACE) to continue
+    DrawFormattedText(cfg.screen.win, 'Appuyez sur "espace" pour continuer', 'center', 'center');
+    Screen('Flip', cfg.screen.win);
+    
     waitForKb('space', [])
 
     end

@@ -3,7 +3,7 @@
 %
 % Modifications by Filippo Cerpelloni
 
-function [onset, duration] = showStim(cfg, thisEvent, thisFixation, thisImage, iEvent)
+function [onset, duration] = vbBlock_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent)
     % Presents the stimulation images of french/braille/drawings and scrambling controls
     %
     % Input:

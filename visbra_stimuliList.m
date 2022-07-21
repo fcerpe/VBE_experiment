@@ -25,7 +25,8 @@ questions.mustBePositiveInteger = 'Please enter a positive integer: ';
 questions.startCondition = 'Enter the starting condition (FR = 1, BR = 2): ';
 questions.questionsToAsk = {'Enter the starting condition (FR = 1, BR = 2): ', 1};
 
-responses = askUserCli(questions, responses);
+resp = {2};
+responses = askUserCli(questions, resp);
 cfg.subject.firstCond = responses{1, 1};
 
 % Open Screen and add background
@@ -61,7 +62,7 @@ try
     Screen('BlendFunction', cfg.screen.win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
     
     % time in frames
-    framesLeft = floor(10 / cfg.screen.ifi);
+    framesLeft = floor(50 / cfg.screen.ifi);
     
     while framesLeft
         % FIRST LIST
@@ -84,36 +85,37 @@ try
     % wait 5 seconds between lists
     waitFor(cfg, 5);
 
-    %% Second list for 2 minutes
-    fprintf('\n Showing list of %s stimuli\n', string(secondCharCondition));
-
-    framesLeft = floor(cfg.timing.eventDuration / cfg.screen.ifi);
-    vbl = Screen('Flip', cfg.screen.win);
-    onset = vbl;
-    
-    % Set up alpha-blending for smooth (anti-aliased) lines
-    Screen('BlendFunction', cfg.screen.win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
-    
-    % time in frames
-    framesLeft = floor(10 / cfg.screen.ifi);
-    
-    while framesLeft
-        % SECOND LIST
-        imageTexture = Screen('MakeTexture', cfg.screen.win, secondImage);
-        
-        Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
-        Screen('DrawingFinished', cfg.screen.win);
-        vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
-
-        framesLeft = framesLeft - 1;
-    end
-    
-    Screen('DrawingFinished', cfg.screen.win);
-    Screen('Close');
-
-    vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
-    duration = vbl - onset;
-    disp(duration)
+    % TEMP COMMENT FOR OUT-OF-SCANNER STUFF
+%     %% Second list for 2 minutes
+%     fprintf('\n Showing list of %s stimuli\n', string(secondCharCondition));
+% 
+%     framesLeft = floor(cfg.timing.eventDuration / cfg.screen.ifi);
+%     vbl = Screen('Flip', cfg.screen.win);
+%     onset = vbl;
+%     
+%     % Set up alpha-blending for smooth (anti-aliased) lines
+%     Screen('BlendFunction', cfg.screen.win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
+%     
+%     % time in frames
+%     framesLeft = floor(10 / cfg.screen.ifi);
+%     
+%     while framesLeft
+%         % SECOND LIST
+%         imageTexture = Screen('MakeTexture', cfg.screen.win, secondImage);
+%         
+%         Screen('DrawTexture', cfg.screen.win, imageTexture, [], [], 0);
+%         Screen('DrawingFinished', cfg.screen.win);
+%         vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
+% 
+%         framesLeft = framesLeft - 1;
+%     end
+%     
+%     Screen('DrawingFinished', cfg.screen.win);
+%     Screen('Close');
+% 
+%     vbl = Screen('Flip', cfg.screen.win, vbl + cfg.screen.ifi);
+%     duration = vbl - onset;
+%     disp(duration)
 
     % Blank screen
     Screen('FillRect', cfg.screen.win, cfg.color.background);
