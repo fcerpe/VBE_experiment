@@ -25,7 +25,7 @@ questions.mustBePositiveInteger = 'Please enter a positive integer: ';
 questions.startCondition = 'Enter the starting condition (FR = 1, BR = 2): ';
 questions.questionsToAsk = {'Enter the starting condition (FR = 1, BR = 2): ', 1};
 
-responses = askUserCli(questions, responses);
+responses = askUserCli(questions, []);
 cfg.subject.firstCond = responses{1, 1};
 
 % Open Screen and add background

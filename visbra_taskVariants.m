@@ -5,7 +5,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 02/05/2022
+% Last update 29/06/2022
 
 getOnlyPress = 1;
 
@@ -77,7 +77,7 @@ try
     % we run all the experiment in a single script, there will be a 'space'
     % to press to start the following run
     runsToPerform = [1 3 5];
-    taskOrder = npermutek_noRep([1 2 3],3);
+    taskOrder = [1 2 3; 1 3 2; 2 1 3; 2 3 1; 3 1 2; 3 2 1];
     thisTaskOrder = taskOrder(mod(cfg.subject.subjectNb,5)+1,:);
     tasks = ["nodim","onedim","twodim"];
 
