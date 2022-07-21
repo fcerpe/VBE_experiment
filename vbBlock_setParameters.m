@@ -59,7 +59,8 @@ function [cfg] = vbBlock_setParameters()
     % win
 %     cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
 
-    % mac - half. Is it weird?
+    % mac - half. Is it weird? Huge variations whether plugged or on
+    % battery
     cfg.timing.eventDuration = 3.06;
 
     % Time between blocs in secs
@@ -86,7 +87,6 @@ function [cfg] = vbBlock_setParameters()
     cfg.fixation.xDisplacement = 0;
     cfg.fixation.yDisplacement = 0;
 
-    
     % target (referring to the words)
     cfg.target.maxNbPerBlock = 1; % 0 or 1, otherwise too crowded
     cfg.target.duration = 0.1; % In secs

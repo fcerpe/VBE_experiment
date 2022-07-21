@@ -5,7 +5,7 @@
 % (C) Copyright 2020 CPP visual motion localizer developpers
 %
 % Rearranged and modified by Filippo Cerpelloni
-% Last update 02/05/2022
+% Last update 21/07/2022
 
 getOnlyPress = 1;
 
@@ -19,8 +19,8 @@ end
 visbra_initEnv();
 
 % set and load all the parameters to run the experiment
-cfg = vbEvrel_setParameters;
-cfg = visbra_userInputs(cfg);
+cfg = vbBlock_setParameters;
+cfg = vbBlock_userInputs(cfg);
 
 % Manually assign the first value
 cfg = createFilename(cfg);
@@ -38,11 +38,19 @@ try
     cfg = visbra_initPTB(cfg);
 
     % creates design of experiment: re-made suited on me
-    cfg = vbEvrel_expDesign(cfg);
+    cfg = vbBlock_expDesign(cfg);
 
     % we run all the experiment in a single script, there will be a 'space'
     % to press to start the following run
-    for iRun = cfg.subject.runNb:1 % cfg.design.nbRuns
+    for iRun = 1:cfg.design.nbRuns
+        
+        % modify cfg.fileName.events to include the real number of run
+        if iRun < 10
+            cfg.fileName.events(41) = '0';
+            cfg.fileName.events(42) = char(string(iRun));
+        else
+            cfg.fileName.events([41 42]) = char(string(iRun));
+        end
 
         % Prepare for the output logfiles with all
         logFile.extraColumns = cfg.extraColumns;
@@ -67,14 +75,18 @@ try
         %% Actual presentation of stimuli
 
         talkToMe(cfg, sprintf('\nData will be saved in this file:\n\t%s\n', cfg.fileName.events));
+        
+        % determine the french / braille runs
+        frenchFirst = repmat(["french", "braille"],1,6);
+        brailleFirst = repmat(["braille", "french"],1,6);
 
-        if mod(cfg.subject.runNb,2) == 0 
-            whichLanguage = "french";
+        if cfg.subject.firstCond == 1
+            whichLanguage = frenchFirst(iRun);
         else
-            whichLanguage = "braille";
+            whichLanguage = brailleFirst(iRun);
         end
 
-        fprintf('\n Running Run %.0f - %s\n', string(cfg.subject.runNb), whichLanguage);
+        fprintf('\n Running Run %.0f - %s\n', string(iRun), whichLanguage);
 
         % By blocks we actually mean chunks / repetitions of stimuli.
         % there's no IBI in fact, but it keeps things in order
@@ -84,7 +96,7 @@ try
 
             % Get which condition are we calling, a.k.a from which
             % struct to pick the images
-            currentCondition = cfg.design.blockMatrix(iBlock,iRun);
+            currentCondition = cfg.design.blockMatrix(iRun, iBlock);
 
             % Let me know what's happening
             fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
@@ -92,12 +104,12 @@ try
             % For each event in the block. Refer to blockLengths, each
             % COLUMN represents a run, each cell represents a block within
             % that run
-            for iEvent = 1:cfg.design.blockLengths(iBlock,iRun)
+            for iEvent = 1:cfg.design.blockLengths(iRun, iBlock)
 
                 % Check for experiment abortion from operator
                 checkAbort(cfg, cfg.keyboard.keyboard);
 
-                [thisEvent, thisFixation, cfg] = preTrialSetup(cfg, iBlock, iEvent, iRun);
+                [thisEvent, thisFixation, cfg] = vbBlock_preTrialSetup(cfg, iBlock, iEvent, iRun);
 
                 % Get the path of the specific .png image
                 currentImgIndex = cfg.design.presentationMatrix(iBlock,iEvent,iRun);
@@ -109,15 +121,23 @@ try
 
                 % WORD EVENT
                 % show the word and collect onset and duraton of the event
-                [onset, duration] = vbEvrel_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
+                [onset, duration] = vbBlock_showStim(cfg, thisEvent, thisFixation, thisImage, iEvent);
 
                 % Save image ID
-                
-                imgToSave = char("TBD"); %char(stimuli.eventNames(currentCondition, currentImgIndex));
+                switch currentCondition
+                    case {'frw','brw'}
+                        imgToSave = char(stimuli.french.rw(currentImgIndex));
+                    case {'fpw','bpw'}
+                        imgToSave = char(stimuli.french.pw(currentImgIndex));
+                    case {'fnw','bnw','ffs','bfs'}
+                        imgToSave = char(stimuli.french.nw(currentImgIndex));
+                end
+
+                isi = cfg.design.isiMatrix(iBlock,iEvent,iRun);
 
                 % Save word event
-                thisEvent = preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
-                    duration, onset, cfg, imgToSave, logFile);
+                thisEvent = vbBlock_preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
+                    duration, onset, cfg, imgToSave, isi, logFile);
 
                 saveEventsFile('save', cfg, thisEvent);
 
@@ -129,9 +149,11 @@ try
 
                 previousEvent = thisEvent;
 
+                % ISI
+                %
                 % wait accordingly to the randomized variable delay
                 % plus, draw fixation (inside the waitFor function)
-                waitFor(cfg, cfg.design.isiMatrix(iBlock,iEvent));
+                waitFor(cfg, cfg.design.isiMatrix(iBlock,iEvent,iRun));
 
             end
 
@@ -162,7 +184,13 @@ try
 
         createJson(cfg, cfg);
 
-        % Block is over, wait for key press (SPACE) to continue
+        % Block is over
+
+        % inform participants that the session ended
+        DrawFormattedText(cfg.screen.win, 'End of session', 'center', 'center', cfg.text.color);
+        Screen('Flip', cfg.screen.win);
+
+        % wait for key press (SPACE) to continue
         waitForKb('space');
 
     end

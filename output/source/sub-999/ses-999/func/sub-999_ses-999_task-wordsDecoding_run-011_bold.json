@@ -324,9 +324,9 @@
     "fileName": {
         "base": "sub-999_ses-999_task-wordsDecoding",
         "datasetDescription": "/Users/cerpelloni/Desktop/GitHub/VisualBraille/output/dataset_description.json",
-        "date": "202207211313",
+        "date": "202207211309",
         "dateFormat": "yyyymmddHHMM",
-        "events": "sub-999_ses-999_task-wordsDecoding_run-001_events.tsv",
+        "events": "sub-999_ses-999_task-wordsDecoding_run-011_events.tsv",
         "modality": "func",
         "pattern": "%03.0f",
         "stim": "sub-999_ses-999_task-wordsDecoding_run-001_stim.tsv",
@@ -385,8 +385,8 @@
         "center": [756,491],
         "FOV": 14.99171527945972,
         "ppd": 100.8557040882176,
-        "ifi": 0.007685708987992257,
-        "monitorRefresh": 130.111613848813
+        "ifi": 0.007340041978750378,
+        "monitorRefresh": 136.2390028415406
     },
     "skipSyncTests": 1,
     "software": {
@@ -437,5 +437,5 @@
     },
     "useGUI": false,
     "verbose": 1,
-    "experimentStart": 512368.454887667
+    "experimentStart": 512114.0986775
 }
