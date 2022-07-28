@@ -98,6 +98,22 @@ try
             % struct to pick the images
             currentCondition = cfg.design.blockMatrix(iRun, iBlock);
 
+            % if we're presenting either french or braille real words
+            wrdCat = '';
+            if strcmp(currentCondition, "frw") || strcmp(currentCondition, "brw")
+            
+                % give a name based on the semantic group
+                thisBlockEvents = cfg.design.presentationMatrix(iBlock,:,iRun);
+
+                if all(thisBlockEvents(1:4) <= 6) % all living
+                    wrdCat = '_liv';
+                elseif any(thisBlockEvents(1:4) <= 6) % some living, mixed block
+                    wrdCat = '_mix';
+                else                            % non living
+                    wrdCat = '_nli';
+                end  
+            end
+
             % Let me know what's happening
             fprintf('\n Running Block %.0f - %s\n', iBlock, string(currentCondition));
 
@@ -137,7 +153,7 @@ try
 
                 % Save word event
                 thisEvent = vbBlock_preSaveSetup(thisEvent, thisFixation, iBlock, iEvent, ...
-                    duration, onset, cfg, imgToSave, isi, logFile);
+                    duration, onset, cfg, imgToSave, isi, wrdCat, logFile);
 
                 saveEventsFile('save', cfg, thisEvent);
 

@@ -174,8 +174,6 @@
             thisRunTargets(iBlock, chosenPosition) = 1;
         end
 
-        [sum(thisRunTargets(:,2)) sum(thisRunTargets(:,3)) sum(thisRunTargets(:,4))]
-
         % Check rule 3
         if max(sum(thisRunTargets)) < 3 % no more than 2 in the same column
             % move to the next block
