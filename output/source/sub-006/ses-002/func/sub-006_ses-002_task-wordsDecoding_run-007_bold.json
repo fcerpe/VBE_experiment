@@ -296,7 +296,7 @@
     },
     "dir": {
         "output": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output",
-        "outputSubject": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\source\\sub-006\\ses-001"
+        "outputSubject": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\source\\sub-006\\ses-002"
     },
     "extraColumns": [
         "image",
@@ -322,21 +322,21 @@
         "do": false
     },
     "fileName": {
-        "base": "sub-006_ses-001_task-wordsDecoding",
+        "base": "sub-006_ses-002_task-wordsDecoding",
         "datasetDescription": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\dataset_description.json",
-        "date": "202207311503",
+        "date": "202207311635",
         "dateFormat": "yyyymmddHHMM",
-        "events": "sub-006_ses-001_task-wordsDecoding_run-001_events.tsv",
+        "events": "sub-006_ses-002_task-wordsDecoding_run-007_events.tsv",
         "modality": "func",
         "pattern": "%03.0f",
-        "stim": "sub-006_ses-001_task-wordsDecoding_run-001_stim.tsv",
+        "stim": "sub-006_ses-002_task-wordsDecoding_run-007_stim.tsv",
         "suffix": {
             "contrastEnhancement": "",
             "echo": "",
             "phaseEncodingDirection": "",
             "reconstruction": "",
             "recording": "",
-            "run": "_run-001"
+            "run": "_run-007"
         },
         "task": "wordsDecoding",
         "zeroPadding": 3
@@ -385,8 +385,8 @@
         "center": [1200,750],
         "FOV": 14.99171527945972,
         "ppd": 160.088419187647,
-        "ifi": 0.01667960399994627,
-        "monitorRefresh": 59.95346172506383
+        "ifi": 0.01667046000016853,
+        "monitorRefresh": 59.98634710679191
     },
     "skipSyncTests": 1,
     "software": {
@@ -399,8 +399,8 @@
     "subject": {
         "askGrpSess": [true,true],
         "firstCond": 1,
-        "runNb": 1,
-        "sessionNb": 1,
+        "runNb": 7,
+        "sessionNb": 2,
         "subjectGrp": "",
         "subjectNb": 6
     },
@@ -437,5 +437,5 @@
     },
     "useGUI": false,
     "verbose": 1,
-    "experimentStart": 263731.9150604
+    "experimentStart": 269265.5751387
 }

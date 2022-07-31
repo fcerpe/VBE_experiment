@@ -326,7 +326,7 @@
         "datasetDescription": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\dataset_description.json",
         "date": "202207311503",
         "dateFormat": "yyyymmddHHMM",
-        "events": "sub-006_ses-001_task-wordsDecoding_run-001_events.tsv",
+        "events": "sub-006_ses-001_task-wordsDecoding_run-005_events.tsv",
         "modality": "func",
         "pattern": "%03.0f",
         "stim": "sub-006_ses-001_task-wordsDecoding_run-001_stim.tsv",
@@ -437,5 +437,5 @@
     },
     "useGUI": false,
     "verbose": 1,
-    "experimentStart": 263731.9150604
+    "experimentStart": 265367.7630003
 }

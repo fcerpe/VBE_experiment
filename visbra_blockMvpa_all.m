@@ -204,7 +204,16 @@ try
 
         % inform participants that the session ended
         DrawFormattedText(cfg.screen.win, 'End of session', 'center', 'center', cfg.text.color);
-        Screen('Flip', cfg.screen.win);
+        endRun = Screen('Flip', cfg.screen.win);
+
+        disp(' ');
+        runDur = endRun - cfg.experimentStart;
+        runDurMin = floor(runDur / 60);
+        runDurSec = mod(runDur, 60);
+        disp(['Experiment lasted ', ...
+            num2str(runDurMin), ' minutes ', ...
+            num2str(runDurSec), ' seconds']);
+        disp(' ');
 
         % wait for key press (SPACE) to continue
         waitForKb('space');

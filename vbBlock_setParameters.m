@@ -57,11 +57,11 @@ function [cfg] = vbBlock_setParameters()
     % different lines of code
 
     % win
-%     cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
+    cfg.timing.eventDuration = 3.5 - (1/60)*29; % second
 
     % mac - half. Is it weird? Huge variations whether plugged or on
     % battery
-    cfg.timing.eventDuration = 3.06;
+%     cfg.timing.eventDuration = 3.06;
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;

@@ -3,7 +3,9 @@
 function [conditionNamesVector, CON1_INDEX, CON2_INDEX, CON3_INDEX, CON4_INDEX, ...
     CON5_INDEX, CON6_INDEX] = vbLoca_assignConditions(cfg)
 
-[~, nbRepet] = getDesignInput(cfg);
+[nbBlocks, ~] = getDesignInput(cfg);
+
+nShuffles = nbBlocks / length(cfg.design.names);
 
 % regular
 % conditionNamesVector = repmat(cfg.design.names, nbRepet, 1);
@@ -15,7 +17,7 @@ function [conditionNamesVector, CON1_INDEX, CON2_INDEX, CON3_INDEX, CON4_INDEX, 
 % - PUT TOGETHER
 firstRepetition = shuffle(cfg.design.names);
 conditionNamesVector = firstRepetition;
-for rep = 2:nbRepet-1
+for rep = 2:nShuffles-1
     condIsRepeated = true;
     while condIsRepeated 
         thisShuffledRepetition = shuffle(cfg.design.names);
@@ -36,7 +38,7 @@ else
                                     firstRepetition{3}, firstRepetition{2}, firstRepetition{1});
 end
 
-
+conditionNamesVector = repmat(conditionNamesVector, 2, 1);
 % Get the index of each condition
 nameCondition1 = 'fw';
 nameCondition2 = 'sfw';
