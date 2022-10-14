@@ -324,7 +324,7 @@
     "fileName": {
         "base": "sub-999_ses-999_task-wordsDecoding",
         "datasetDescription": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\dataset_description.json",
-        "date": "202207281518",
+        "date": "202210101759",
         "dateFormat": "yyyymmddHHMM",
         "events": "sub-999_ses-999_task-wordsDecoding_run-005_events.tsv",
         "modality": "func",
@@ -385,8 +385,8 @@
         "center": [960,540],
         "FOV": 14.99171527945972,
         "ppd": 128.0707353501176,
-        "ifi": 0.01666588000000047,
-        "monitorRefresh": 60.00283213367502
+        "ifi": 0.01666153399999985,
+        "monitorRefresh": 60.01848329211519
     },
     "skipSyncTests": 1,
     "software": {
@@ -437,5 +437,5 @@
     },
     "useGUI": false,
     "verbose": 1,
-    "experimentStart": 6694.4523061
+    "experimentStart": 2575.7978396
 }

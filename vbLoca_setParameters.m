@@ -50,7 +50,7 @@ function [cfg] = vbLoca_setParameters()
 
     %% Timing
 
-    cfg.timing.eventDuration = 1 - (1/60)*6; % second
+    cfg.timing.eventDuration = 1 - (1/60)*7; % second
 
     % Time between blocs in secs
     cfg.timing.IBI = 6;
@@ -105,7 +105,7 @@ end
 
 function cfg = setKeyboards(cfg)
     cfg.keyboard.escapeKey = 'ESCAPE';
-    cfg.keyboard.responseKey = {'c','b','t'};
+    cfg.keyboard.responseKey = {'c','b','a','d','t'};
     cfg.keyboard.keyboard = [];
     cfg.keyboard.responseBox = [];
 

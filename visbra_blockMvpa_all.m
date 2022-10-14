@@ -42,7 +42,7 @@ try
 
     % we run all the experiment in a single script, there will be a 'space'
     % to press to start the following run
-    for iRun = 1:cfg.design.nbRuns
+    for iRun = cfg.subject.runNb:cfg.design.nbRuns
         
         % modify cfg.fileName.events to include the real number of run
         if iRun < 10
