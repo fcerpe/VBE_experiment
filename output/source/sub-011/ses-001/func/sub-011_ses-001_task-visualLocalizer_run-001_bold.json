@@ -1,0 +1,316 @@
+{
+    "Instructions": "",
+    "RepetitionTime": 1.75,
+    "SliceTiming": [],
+    "TaskDescription": "",
+    "TaskName": "visual Localizer",
+    "aperture": {
+        "type": "none"
+    },
+    "audio": {
+        "do": false
+    },
+    "bids": {
+        "MRI": {
+            "Instructions": "Détecte le stimulus répété",
+            "TaskDescription": []
+        },
+        "beh": {
+            "Instructions": [],
+            "TaskName": "visual Localizer"
+        },
+        "datasetDescription": {
+            "Acknowledgements": "",
+            "Authors": [""],
+            "BIDSVersion": "",
+            "DatasetDOI": "",
+            "Funding": [""],
+            "HowToAcknowledge": "",
+            "License": "",
+            "Name": "",
+            "ReferencesAndLinks": [""]
+        },
+        "eeg": {
+            "EEGReference": "",
+            "Instructions": "",
+            "PowerLineFrequency": 50,
+            "SamplingFrequency": [],
+            "SoftwareFilters": "n/a",
+            "TaskName": "visual Localizer"
+        },
+        "ieeg": {
+            "Instructions": "",
+            "PowerLineFrequency": 50,
+            "SamplingFrequency": [],
+            "SoftwareFilters": "n/a",
+            "TaskName": "visual Localizer",
+            "iEEGReference": ""
+        },
+        "meg": {
+            "DewarPosition": [],
+            "DigitizedHeadPoints": [],
+            "DigitizedLandmarks": [],
+            "Instructions": "",
+            "PowerLineFrequency": 50,
+            "SamplingFrequency": [],
+            "SoftwareFilters": "n/a",
+            "TaskName": "visual Localizer"
+        },
+        "mri": {
+            "Instructions": "",
+            "RepetitionTime": 1.75,
+            "SliceTiming": [],
+            "TaskDescription": "",
+            "TaskName": "visual Localizer"
+        }
+    },
+    "color": {
+        "background": [0,0,0],
+        "black": [0,0,0],
+        "grey": [127.5,127.5,127.5],
+        "red": [255,0,0],
+        "white": [255,255,255]
+    },
+    "debug": {
+        "do": false,
+        "showMouse": false,
+        "smallWin": false,
+        "transpWin": false
+    },
+    "design": {
+        "localizer": "VWFA",
+        "names": [
+            "fw",
+            "sfw",
+            "bw",
+            "sbw",
+            "ld",
+            "sld"
+        ],
+        "nbRepetitions": 12,
+        "nbEventsPerBlock": 10,
+        "blockNames": [
+            "ld",
+            "bw",
+            "sld",
+            "sfw",
+            "sbw",
+            "fw",
+            "sld",
+            "sfw",
+            "ld",
+            "fw",
+            "bw",
+            "sbw",
+            "sld",
+            "sbw",
+            "bw",
+            "sfw",
+            "fw",
+            "ld",
+            "sfw",
+            "bw",
+            "ld",
+            "sbw",
+            "fw",
+            "sld",
+            "fw",
+            "ld",
+            "bw",
+            "sld",
+            "sbw",
+            "sfw",
+            "fw",
+            "sbw",
+            "sfw",
+            "sld",
+            "bw",
+            "ld",
+            "ld",
+            "bw",
+            "sld",
+            "sfw",
+            "sbw",
+            "fw",
+            "sld",
+            "sfw",
+            "ld",
+            "fw",
+            "bw",
+            "sbw",
+            "sld",
+            "sbw",
+            "bw",
+            "sfw",
+            "fw",
+            "ld",
+            "sfw",
+            "bw",
+            "ld",
+            "sbw",
+            "fw",
+            "sld",
+            "fw",
+            "ld",
+            "bw",
+            "sld",
+            "sbw",
+            "sfw",
+            "fw",
+            "sbw",
+            "sfw",
+            "sld",
+            "bw",
+            "ld"
+        ],
+        "nbBlocks": 36,
+        "repetitionTargets": [[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],[0,1,0,0,0,0,0,0,0,0]],
+        "lengthBlock": [10,10,11,10,10,10,10,10,10,10,11,11,10,10,11,11,11,11,11,11,10,11,11,11,10,11,10,11,10,11,10,10,10,10,11,11,10,10,10,11,11,11,10,10,11,10,11,10,11,11,10,11,10,10,11,10,10,11,11,11,10,11,11,11,10,11,11,11,11,10,10,10],
+        "presMatrix": [[2,17,5,12,20,1,9,14,10,6,0],[8,10,9,12,5,14,1,2,13,6,0],[4,6,13,18,14,17,2,2,12,20,16],[9,10,8,18,16,14,20,11,13,5,0],[17,7,16,19,9,14,3,13,4,15,0],[8,1,11,13,15,5,14,9,17,19,0],[13,16,3,18,11,4,8,15,7,19,0],[19,17,16,18,7,15,20,4,3,11,0],[19,8,10,1,5,7,15,9,11,3,0],[12,17,15,7,4,6,19,1,3,2,0],[8,10,10,1,20,11,2,6,18,12,5],[12,6,10,10,4,16,2,20,18,3,7],[9,10,8,18,16,14,20,11,13,5,0],[17,7,16,19,9,14,3,13,4,15,0],[8,1,11,13,13,15,5,14,9,17,19],[11,16,16,10,8,20,19,12,18,14,13],[14,1,12,18,16,20,20,6,5,15,19],[14,9,9,8,2,6,10,5,11,1,3],[12,17,15,7,4,6,6,19,1,3,2],[8,10,1,20,11,2,2,6,18,12,5],[12,6,10,4,16,2,20,18,3,7,0],[5,9,9,2,3,1,7,4,15,17,6],[4,13,7,9,17,17,2,10,3,8,11],[18,4,19,20,13,16,12,15,15,7,17],[11,16,10,8,20,19,12,18,14,13,0],[14,1,12,18,16,20,6,5,15,15,19],[14,9,8,2,6,10,5,11,1,3,0],[17,18,10,20,14,14,13,19,5,15,16],[7,15,6,16,1,9,11,13,18,4,0],[18,1,17,16,8,3,5,20,11,11,12],[5,9,2,3,1,7,4,15,17,6,0],[4,13,7,9,17,2,10,3,8,11,0],[18,4,19,20,13,16,12,15,7,17,0],[4,9,8,1,2,12,3,7,6,11,0],[3,12,5,17,2,14,14,19,20,8,10],[2,14,14,9,10,15,13,19,7,6,4]],
+        "targetMatrix": [[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0]]
+    },
+    "dir": {
+        "output": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output",
+        "outputSubject": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\source\\sub-011\\ses-001"
+    },
+    "extraColumns": [
+        "image",
+        "target",
+        "event",
+        "block",
+        "keyName"
+    ],
+    "eyeTracker": {
+        "AverageCalibrationError": [],
+        "CalibrationDistance": "",
+        "CalibrationPosition": "",
+        "CalibrationType": "HV5",
+        "Manufacturer": "",
+        "ManufacturersModelName": "",
+        "MaximalCalibrationError": [],
+        "PupilPositionType": "",
+        "RawDataFilters": [],
+        "RawSamples": [],
+        "SamplingFrequency": [],
+        "SoftwareVersions": "",
+        "do": false
+    },
+    "fileName": {
+        "base": "sub-011_ses-001_task-visualLocalizer",
+        "datasetDescription": "C:\\Users\\filip\\Documents\\GitHub\\VisualBraille\\output\\dataset_description.json",
+        "date": "202210171749",
+        "dateFormat": "yyyymmddHHMM",
+        "events": "sub-011_ses-001_task-visualLocalizer_run-001_events.tsv",
+        "modality": "func",
+        "pattern": "%03.0f",
+        "stim": "sub-011_ses-001_task-visualLocalizer_run-001_stim.tsv",
+        "suffix": {
+            "contrastEnhancement": "",
+            "echo": "",
+            "phaseEncodingDirection": "",
+            "reconstruction": "",
+            "recording": "",
+            "run": "_run-001"
+        },
+        "task": "visualLocalizer",
+        "zeroPadding": 3
+    },
+    "fixation": {
+        "color": [255,0,0],
+        "lineWidthPix": 3,
+        "type": "cross",
+        "width": 0.2,
+        "xDisplacement": 0,
+        "yDisplacement": 0,
+        "widthPix": 32.0176838375294,
+        "xDisplacementPix": 0,
+        "yDisplacementPix": 0,
+        "xCoords": [-16.0088419187647,16.0088419187647,0,0],
+        "yCoords": [0,0,-16.0088419187647,16.0088419187647],
+        "allCoords": [[-16.0088419187647,16.0088419187647,0,0],[0,0,-16.0088419187647,16.0088419187647]]
+    },
+    "keyboard": {
+        "escapeKey": "ESCAPE",
+        "keyboard": [],
+        "responseBox": [],
+        "responseKey": [
+            "c",
+            "b",
+            "a",
+            "d",
+            "t"
+        ]
+    },
+    "mri": {
+        "triggerKey": "s",
+        "triggerNb": 1,
+        "repetitionTime": 1.75
+    },
+    "pacedByTriggers": {
+        "do": false
+    },
+    "screen": {
+        "monitorDistance": 95,
+        "monitorWidth": 25,
+        "resolution": [[],[],[]],
+        "idx": 2,
+        "win": 10,
+        "winRect": [0,0,2400,1500],
+        "winWidth": 2400,
+        "winHeight": 1500,
+        "center": [1200,750],
+        "FOV": 14.99171527945972,
+        "ppd": 160.088419187647,
+        "ifi": 0.01667506400030106,
+        "monitorRefresh": 59.96978482253173
+    },
+    "skipSyncTests": 1,
+    "software": {
+        "os": "PCWIN64",
+        "name": "Psychtoolbox",
+        "RRID": "SCR_002881",
+        "version": "3.0.17",
+        "runsOn": "Matlab - 9.10.0.1602886 (R2021a)"
+    },
+    "subject": {
+        "askGrpSess": [true,true],
+        "runNb": 1,
+        "sessionNb": 1,
+        "subjectGrp": "",
+        "subjectNb": 11
+    },
+    "suffix": {
+        "acquisition": [],
+        "contrastEnhancement": [],
+        "echo": [],
+        "phaseEncodingDirection": [],
+        "reconstruction": [],
+        "recording": []
+    },
+    "target": {
+        "maxNbPerBlock": 1,
+        "duration": 0.1,
+        "type": "repetition"
+    },
+    "task": {
+        "name": "visual localizer",
+        "instruction": "Détecte le stimulus répété"
+    },
+    "testingDevice": "mri",
+    "text": {
+        "color": [255,255,255],
+        "font": "Courier New",
+        "size": 25,
+        "style": 1
+    },
+    "timing": {
+        "eventDuration": 0.8833333333333333,
+        "IBI": 6,
+        "ISI": 0.01,
+        "onsetDelay": 0,
+        "endDelay": 3.6
+    },
+    "useGUI": false,
+    "verbose": 1,
+    "experimentStart": 186286.8386038
+}
